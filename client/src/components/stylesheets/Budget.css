@@ -1,0 +1,158 @@
+.Budget {
+    width: 100%;
+    background-color: #2C2C2C;
+    height: 50px;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    transition: height 0.4s ease;
+}
+.Budget.active {
+    height: 80vh;
+}
+
+.dropdown {
+    position: absolute; 
+    top: 0;
+    right: 10px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.dropdown > img {
+    height: 20px;
+    width: 20px;
+}
+.Budget.active > .dropdown > img {
+    transform: rotate(180deg);
+}
+
+.budgetTitle {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(0.5vw + 15px);
+}
+
+.budgetAmountCont {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(0.3vw + 12px);
+    color: #D9D9D9;
+}
+.budgetAmountCont > input {
+    width: 150px;
+    font-size: calc(0.3vw + 12px);
+    outline: none;
+    border: none;
+    background-color: #353535;
+    border-radius: 5px;
+    color: #FFFFFF;
+    padding: 3px 5px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.sections {
+    width: 80vw;
+    height: 86%;
+    display: flex;
+    margin-top: 30px;
+    overflow-x: scroll;
+}
+
+.BudgetSection {
+    width: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+
+.percentCont {
+    display: flex;
+    font-size: calc(0.3vw + 12px);
+    justify-content: center;
+    align-items: center;
+}
+.percent {
+    width: 60px;
+    text-align: center;
+    background-color: #353535;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-size: calc(0.3vw + 12px);
+}
+
+.sectionTitle {
+    font-size: calc(0.4svw + 12px);
+    color: white;
+    margin-top: 5px;
+}
+
+.fraction {
+    margin-top: 10px;
+    font-weight: bold;
+}
+.spent {
+    color: #8C8C8C;
+}
+.total {
+    color: #00A676;
+}
+
+.Items {
+    max-height: 75%;
+    overflow-y: scroll;
+    width: 80%;
+}
+
+.Item {
+    width: 100%;
+    height: 40px;
+    background-color: #48639C;
+    color: white;
+    border-radius: 14px;
+    margin-top: 10px;
+    display: flex;
+    padding: 0 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+/* .Item.date {
+    margin-top: 30px;
+} */
+
+.Item > .itemPrice {
+    color: #DC9596;
+}
+
+.addItem {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #48639C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.addItem > img {
+    height: 50%;
+    width: 50%;
+}

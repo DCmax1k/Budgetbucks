@@ -1,0 +1,35 @@
+.floatingIcon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+.floatingIcon > img {
+    height: calc(4vw + 25px);
+    width: calc(4vw + 25px);
+}
+
+.title {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.title > img {
+    height: 100%;
+}
+
+.budgets {
+    margin-top: 10px;
+    width: 100%;
+    height: calc(100% - 40px);
+    padding: 0 10vw;
+    color: white;
+}
+
+@media screen and (max-width: 750px) {
+    .budgets {
+        padding: 0 1vw;
+    }
+}

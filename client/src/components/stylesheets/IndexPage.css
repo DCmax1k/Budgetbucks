@@ -1,0 +1,11 @@
+
+.titleLogo {
+    margin-top: 5vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.titleLogo > img {
+    width: calc(10vw + 200px);
+}
