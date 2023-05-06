@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node start",
+    "start": "node server",
     "devStart": "nodemon server"
   },
   "author": "Dylan Caldwell",
@@ -19,5 +19,6 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0"
-  }
+  },
+  "engines": {"node": "^12.0"}
 }
