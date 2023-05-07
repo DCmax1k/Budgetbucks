@@ -49,7 +49,7 @@ class BudgetSection extends Component {
         const { section, budget } = this.props;
         const spent = this.calculateSpent(section, budget);
 
-        const spentText = isNaN(spent) ? 0 : spent.toFixed(2);
+        const spentText = isNaN(spent) ? 0 : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
         const totalText = this.calculatePercent(section, budget);
         let red = false;
         if (spentText>totalText) red = true;
