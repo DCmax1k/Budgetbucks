@@ -132,6 +132,7 @@
     padding: 0 8px;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 /* .Item.date {
     margin-top: 30px;
@@ -155,4 +156,107 @@
 .addItem > img {
     height: 50%;
     width: 50%;
+}
+
+.EditItem {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    height: 250px;
+    width: calc(10vw + 300px);
+    transition: transform 0.3s ease;
+    background-color: #353535;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 50px;
+}
+.EditItem.true {
+    transform: translate(-50%, 10%);
+}
+
+.editTitle {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.editInputs {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.editInputs > input {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    height: 35px;
+    padding: 0 10px;
+    color: white;
+}
+.editInputs > input:nth-child(1) {
+    width: 65%;
+    background-color: #3E4C69;
+}
+.editInputs > input:nth-child(1)::placeholder {
+    color: #9ea5b5;
+}
+.editInputs > input:nth-child(2) {
+    width: 32%;
+    background-color: #896565;
+}
+.editInputs > input:nth-child(2)::placeholder {
+    color: #c3b2b2;
+}
+
+.dateAndDone {
+    display: flex;
+    margin-top: 30px;
+    width: 100%;
+    justify-content: space-between;
+}
+.dateAndDone > div:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    color: grey;
+}
+
+.editDone {
+    width: 80px;
+    height: 40px;
+    background-color: #5A739B;
+    width: 32%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.EditItem .editDeleteItem {
+    position: absolute;
+    left: 50%;
+    top: -40px;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    height: 25px;
+    width: 110px;
+    background-color: #747474;
+    color: #DADADA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.EditItem.true .editDeleteItem {
+    opacity: 1;
 }

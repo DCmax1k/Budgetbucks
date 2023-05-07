@@ -7,14 +7,22 @@ class Item extends Component {
 
         this.budget = props.budget;
         this.item = props.item;
+        this.section = props.section;
         this.state= {
             dateActive: false,
         };
+
+        this.editItem = this.editItem.bind(this);
+    }
+
+    editItem(state) {
+        if (state === false) this.props.editItem(null, null);
+        this.props.editItem(this.section, this.item);
     }
 
     render() {
         return (
-            <div className={`Item ${this.state.dateActive ? "date" : ""}`}>
+            <div className={`Item ${this.state.dateActive ? "date" : ""}`} onClick={this.editItem}>
                 {/* <div className={`itemDate ${this.state.dateActive ? "date" : ""}`}>
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}
