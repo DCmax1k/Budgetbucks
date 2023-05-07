@@ -95,6 +95,7 @@ class Budget extends Component {
         const budget = this.state.budget;
         budget.sections[section.key].items.splice(item.key, 1);
         this.fixItems(budget, section);
+        //console.log(this.state.budget.sections[section.key].items);
     }
 
     fixItems(budget, section) {

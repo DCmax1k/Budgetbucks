@@ -17,7 +17,7 @@ class EditItem extends Component {
     changeItem(item, type, e, section) {
         let value = e.target.value;
         if (type === 'price') {
-            value = value === "" ? 0 : value[value.length-1] === "." ? value : parseFloat(value);
+            value = value === "" ? 0 : value[value.length-1] === "." ? value : value.substring(value.length-2) === ".0" ? value : isNaN(value) ? 0 : parseFloat(value);
         }
         item[type] = value;
         this.props.changeItem(item, section.key);
@@ -49,7 +49,7 @@ class EditItem extends Component {
 
                 <div className='editInputs'>
                     <input placeholder='Item name' value={item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
-                    <input placeholder='Price' value={item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
+                    <input placeholder='Price' value={item.price === null ? 0 : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
                 </div>
 
                 <div className='dateAndDone'>

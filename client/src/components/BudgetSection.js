@@ -38,7 +38,7 @@ class BudgetSection extends Component {
     calculatePercent(sec, bud) {
         const value = bud.budgetAmount*(sec.percent/100);
         if (isNaN(value)) return "rly? a letter?";
-        return value.toFixed(2);
+        return parseFloat(value.toFixed(2));
     }
 
     editItem(section, item) {
@@ -48,6 +48,13 @@ class BudgetSection extends Component {
     render() {
         const { section, budget } = this.props;
         const spent = this.calculateSpent(section, budget);
+
+        const spentText = isNaN(spent) ? 0 : spent.toFixed(2);
+        const totalText = this.calculatePercent(section, budget);
+        let red = false;
+        if (spentText>totalText) red = true;
+        if (spentText<totalText) red = false;
+
 
         return (
             <div className="BudgetSection" key={section.key}>
@@ -61,16 +68,16 @@ class BudgetSection extends Component {
                 </div>
 
                 <div className='fraction' >
-                    <span className='spent'>{isNaN(spent) ? 0 : spent/*.toFixed(2)*/}</span>
+                    <span className={`spent ${red}`}>{spentText}</span>
                     &nbsp;&nbsp;/&nbsp;&nbsp;
-                    <span className='total'>{(this.calculatePercent(section, budget))}</span>
+                    <span className='total'>{totalText}</span>
                 </div>
 
                 {/* Items */}
                 <div className='Items'>
                     {section.items.map((item, k) => {
                     return(
-                        <Item key={item.name} budget={budget} section={section} item={item} editItem={this.editItem} />
+                        <Item key={item.date} budget={budget} section={section} item={item} editItem={this.editItem} />
                     )
                 })}
                 </div>

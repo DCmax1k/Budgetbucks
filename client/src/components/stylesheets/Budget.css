@@ -79,7 +79,6 @@
     position: relative;
 }
 
-
 .percentCont {
     display: flex;
     font-size: calc(0.3vw + 12px);
@@ -110,6 +109,9 @@
 }
 .spent {
     color: #8C8C8C;
+}
+.spent.true {
+    color: #DC9596;
 }
 .total {
     color: #00A676;
