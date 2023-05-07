@@ -75,9 +75,9 @@ class Budget extends Component {
         this.fixItems(budget, section);
         //New item
         const newItem = {
-            key: section.items.length-1,
+            key: section.items.length,
             name: "",
-            price: 0.00,
+            price: null,
             date: new Date().now,
         }
 

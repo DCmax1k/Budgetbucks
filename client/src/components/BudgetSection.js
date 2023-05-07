@@ -10,26 +10,18 @@ class BudgetSection extends Component {
         this.section = section;
         this.budget = budget;
 
-        this.state = {
-            spent: 0
-        };
-
         this.calculateSpent = this.calculateSpent.bind(this);
         this.changePercent = this.changePercent.bind(this);
         this.editItem = this.editItem.bind(this);
         this.addItem = this.addItem.bind(this);
     }
 
-    componentDidMount() {
-        this.calculateSpent();
-    }
-
-    calculateSpent() {
+    calculateSpent(section) {
         let spent = 0;
-        this.section.items.forEach(item => {
+        section.items.forEach(item => {
             spent += item.price;
         });
-        this.setState({ spent });
+        return spent;
     }
 
     changePercent(e) {
@@ -55,7 +47,7 @@ class BudgetSection extends Component {
 
     render() {
         const { section, budget } = this.props;
-        const { spent } = this.state;
+        const spent = this.calculateSpent(section, budget);
 
         return (
             <div className="BudgetSection" key={section.key}>

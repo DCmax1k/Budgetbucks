@@ -15,7 +15,11 @@ class EditItem extends Component {
     }
 
     changeItem(item, type, e, section) {
-        item[type] = e.target.value;
+        let value = e.target.value;
+        if (type === 'price') {
+            value = value === "" ? 0 : value[value.length-1] === "." ? value : parseFloat(value);
+        }
+        item[type] = value;
         this.props.changeItem(item, section.key);
     }
 

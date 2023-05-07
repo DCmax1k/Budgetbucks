@@ -140,6 +140,7 @@
 
 .Item > .itemPrice {
     color: #DC9596;
+    font-weight: bold;
 }
 
 .addItem {

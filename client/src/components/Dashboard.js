@@ -60,10 +60,14 @@ class Dashboard extends Component {
         this.user = {};
     }
 
+    floatingIcon() {
+        alert("currently still being developed by your top tier engineer");
+    }
+
     render() {
         return (
             <div className="Dashboard">
-                <div className='floatingIcon'>
+                <div className='floatingIcon' onClick={this.floatingIcon}>
                     <img src='/images/roundIcon.svg' alt='Icon' />
                 </div>
 
