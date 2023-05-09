@@ -10,7 +10,7 @@ class Budget extends Component {
         super(props);
         this.state = {
             budget: props.budget,
-            active: false,
+            active: true,//false,
 
             editSection: null,
             editItem: null,
@@ -25,6 +25,8 @@ class Budget extends Component {
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.fixItems = this.fixItems.bind(this);
+        this.addCategory = this.addCategory.bind(this);
+        this.changeTitle = this.changeTitle.bind(this);
     }
 
     toggleActive() {
@@ -109,17 +111,46 @@ class Budget extends Component {
         });
     }
 
+    addCategory() {
+        const budget = this.state.budget;
+        const newSection = {
+            key: budget.sections.length,
+            title: "New Category",
+            percent: 10,
+            items: [],
+        }
+        budget.sections.push(newSection);
+        this.setState({
+            budget,
+        });
+    }
+
+    changeTitle(e) {
+        const budget = this.state.budget;
+        budget.title = e.target.value;
+        this.setState({
+            budget,
+        });
+    }
+
     render() {
+        let percentUsed = 0;
+        this.state.budget.sections.forEach(section => {
+            percentUsed+=parseFloat(section.percent);
+        });
+        if (isNaN(percentUsed)) percentUsed = "";
         return (
             <div className={"Budget " + (this.state.active ? "active" : "")}>
                 <div className='dropdown' onClick={this.toggleActive} >
                     <img src='/images/dropdown.svg' alt='dropdown arrow' />
                 </div>
                 <div className='budgetTitle'>
-                    {this.state.budget.title}
+                    
+                    <input type="text" value={this.state.budget.title} onInput={this.changeTitle} />
                 </div>
                 <div className='budgetAmountCont'>
                     Budget: <input type='text' value={this.state.budget.budgetAmount} onInput={this.changeBudget} />
+                    <div className='percentUsed'>{percentUsed}% used</div>
                 </div>
 
                 <div className='sections'>
@@ -128,6 +159,13 @@ class Budget extends Component {
                             <BudgetSection key={section.key} section={section} budget={this.state.budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} />
                         )
                     })}
+                    {/* Add section */}
+                    <div className='BudgetSection'>
+                        <div className='addSection'>
+                            New Category
+                            <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' onClick={this.addCategory} />
+                        </div>
+                    </div>
                 </div>
                 
                 <EditItem active={this.state.editActive} section={this.state.editSection} item={this.state.editItem} changeItem={this.changeItem} editItem={this.editItem} deleteItem={this.deleteItem} />

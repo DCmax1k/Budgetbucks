@@ -14,6 +14,7 @@ class BudgetSection extends Component {
         this.changePercent = this.changePercent.bind(this);
         this.editItem = this.editItem.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.changeName = this.changeName.bind(this);
     }
 
     calculateSpent(section) {
@@ -28,6 +29,13 @@ class BudgetSection extends Component {
         const { budget, section } = this.props;
         const newBudget = {...budget};
         newBudget.sections[section.key].percent = e.target.value;
+        this.props.modifyBudget(newBudget);
+    }
+
+    changeName(e) {
+        const { budget, section } = this.props;
+        const newBudget = {...budget};
+        newBudget.sections[section.key].title = e.target.value;
         this.props.modifyBudget(newBudget);
     }
 
@@ -49,7 +57,7 @@ class BudgetSection extends Component {
         const { section, budget } = this.props;
         const spent = this.calculateSpent(section, budget);
 
-        const spentText = isNaN(spent) ? 0 : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
+        const spentText = isNaN(spent) ? 0 : typeof(spent) !== 'string' ? spent.toFixed(2) : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
         const totalText = this.calculatePercent(section, budget);
         let red = false;
         if (spentText>totalText) red = true;
@@ -64,7 +72,7 @@ class BudgetSection extends Component {
                 </div>
                 
                 <div className='sectionTitle' >
-                    {section.title}
+                    <input type="text" value={section.title} onInput={this.changeName} />
                 </div>
 
                 <div className='fraction' >
@@ -86,6 +94,8 @@ class BudgetSection extends Component {
                 <div className='addItem' onClick={() => {this.addItem(section)}}>
                     <img src="/images/plus.svg" alt='add item' />
                 </div>
+
+                <div className='rightBorder'></div>
                 
                 
             </div>

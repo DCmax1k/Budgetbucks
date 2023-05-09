@@ -38,8 +38,17 @@
     align-items: center;
     font-size: calc(0.5vw + 15px);
 }
+.budgetTitle > input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-size: 23px;
+    text-align: center;
+}
 
 .budgetAmountCont {
+    position: relative;
     height: 30px;
     width: 100%;
     display: flex;
@@ -60,6 +69,15 @@
     margin-left: 5px;
     text-align: center;
 }
+.percentUsed {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: #B6B6B6;
+    font-weight: bold;
+}
 
 .sections {
     width: 80vw;
@@ -77,6 +95,38 @@
     align-items: center;
     flex-shrink: 0;
     position: relative;
+}
+
+.addSection {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.pinkPlus {
+    cursor: pointer;
+}
+.addSection img {
+    margin-top: 10px;
+}
+
+.rightBorder {
+    height: 80%;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 2px;
+    background-color: #353535;
+    border-radius: 999px;
+
 }
 
 .percentCont {
@@ -101,6 +151,14 @@
     font-size: calc(0.4svw + 12px);
     color: white;
     margin-top: 5px;
+}
+.sectionTitle > input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    text-align: center;
 }
 
 .fraction {
