@@ -3,6 +3,7 @@ import "./stylesheets/Budget.css";
 
 import BudgetSection from "./BudgetSection";
 import EditItem from "./EditItem";
+import generateId from './util/generateId';
 
 class Budget extends Component {
 
@@ -15,7 +16,7 @@ class Budget extends Component {
             editSection: null,
             editItem: null,
             editActive: false,
-            animateItem: null, // index of item
+            animateItem: null,
         }
 
         this.changeBudget = this.changeBudget.bind(this);
@@ -87,6 +88,7 @@ class Budget extends Component {
             name: "",
             price: null,
             date: new Date().now,
+            id: generateId(),
         }
 
         budget.sections[section.key].items.push(newItem);
@@ -104,11 +106,16 @@ class Budget extends Component {
 
         // First animate item
         this.setState({
-            animateItem: item.key,
+            animateItem: item,
         });
         // Actually remove
         setTimeout(() => {
-            budget.sections[section.key].items.splice(item.key, 1);
+            if (budget.sections[section.key].items.length < 2) {
+                budget.sections[section.key].items = [];
+            } else {
+                budget.sections[section.key].items.splice(item.key, 1);
+            }
+            
             this.setState({
                 animateItem: null,
             });
