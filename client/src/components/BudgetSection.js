@@ -75,6 +75,9 @@ class BudgetSection extends Component {
                 
                 <div className='sectionTitle' >
                     <input type="text" value={section.title} onInput={this.changeName} />
+                    <div className='removeCategory' onClick={() => this.props.requestRemoveCategory(section)} title='Delete category'>
+                        <img src='/images/minus.svg' alt='remove category' />
+                    </div>
                 </div>
 
                 <div className='fraction' >

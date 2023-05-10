@@ -6,6 +6,7 @@
     overflow: hidden;
     position: relative;
     transition: height 0.4s ease;
+    margin-bottom: 10px;
 }
 .Budget.active {
     height: 80vh;
@@ -81,7 +82,7 @@
 
 .sections {
     width: 80vw;
-    height: 86%;
+    height: calc(100% - 110px);
     display: flex;
     margin-top: 30px;
     overflow-x: scroll;
@@ -160,6 +161,7 @@
     font-size: calc(0.4svw + 12px);
     color: white;
     margin-top: 5px;
+    position: relative;
 }
 .sectionTitle > input {
     border: none;
@@ -168,6 +170,18 @@
     color: white;
     font-size: 20px;
     text-align: center;
+}
+
+.removeCategory {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.removeCategory > img {
+    height: 100%;
+    width: 100%;
 }
 
 .fraction {

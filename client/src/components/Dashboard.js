@@ -7,57 +7,56 @@ import generateId from './util/generateId';
 
 // TESTING BUDGET PLACEHOLDER'
 const testBudget = {
-
+    id: generateId(),
+    title: "May 8 - May 16",
+    budgetAmount: 0,
+    sections: [
+],
+}
+const testBudget2 = {
+    id: generateId(),
     title: "May 1 - May 7",
     budgetAmount: 446.50,
     sections: [{
         key: 0,
         title: "Spending",
-        percent: 32,
+        percent: 30,
+        id: generateId(),
         items: [{
             key: 0,
-            name: "New Item",
-            price: 0,
+            name: "Chick fil a",
+            price: 25,
             date: Date.now(),
             id: generateId(),
         }],
-       }, {
-        key: 1,
-        title: "Savings",
-        percent: 10,
-        items: [{
-            key: 0,
-            name: "Deposit check slip 392",
-            price: 35.00,
-            date: Date.now(),
-            id: generateId(),
-        }],
-    },// {
-    //     key: 2,
-    //     title: "Savings",
-    //     percent: 44.6,
-    //     items: [],
-    // }, {
-    //     key: 3,
-    //     title: "Investment",
-    //     percent: 10,
-    //     items: [],
-    // }, {
-    //     key: 4,
-    //     title: "Investment",
-    //     percent: 10,
-    //     items: [],
-    // }
+    },
 ],
 }
+
+
+
 class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.user = {};
+        this.state = {
+            budgets: [testBudget, testBudget2],
+        }
+
+        this.changeBudget = this.changeBudget.bind(this);
     }
 
     floatingIcon() {
         alert("currently still being developed by your top tier engineer");
+    }
+
+    changeBudget(budget) {
+        const budgets = this.state.budgets;
+        const index = budgets.findIndex((b) => b.id === budget.id);
+        budgets[index] = budget;
+        this.setState({
+            budgets,
+        });
     }
 
     render() {
@@ -72,7 +71,11 @@ class Dashboard extends Component {
                 </div>
 
                 <div className='budgets'>
-                    <Budget budget={testBudget} />
+                    {this.state.budgets.map(budget => {
+                        return (
+                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} />
+                        )
+                    })}
                 </div>
                 
             </div>

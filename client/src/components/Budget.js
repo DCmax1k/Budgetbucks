@@ -10,7 +10,6 @@ class Budget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            budget: props.budget,
             active: false,
 
             editSection: null,
@@ -29,6 +28,8 @@ class Budget extends Component {
         this.fixItems = this.fixItems.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.changeTitle = this.changeTitle.bind(this);
+        this.deleteCategory = this.deleteCategory.bind(this);
+        this.requestRemoveCategory = this.requestRemoveCategory.bind(this);
     }
 
     toggleActive() {
@@ -39,15 +40,12 @@ class Budget extends Component {
     }
 
     changeBudget(e) {
-        this.setState({
-            budget: {...this.state.budget, budgetAmount: e.target.value},
-        });
+        const budget = {...this.props.budget, budgetAmount: e.target.value}
+        this.props.changeBudget(budget);
     }
 
     modifyBudget(budget) {
-        this.setState({
-            budget,
-        });
+        this.props.changeBudget(budget);
     }
 
     editItem(section, item) {
@@ -71,15 +69,13 @@ class Budget extends Component {
     }
 
     changeItem(item, sectionKey) {
-        const budget = this.state.budget;
+        const budget = this.props.budget;
         budget.sections[sectionKey].items[item.key] = item;
-        this.setState({
-            budget,
-        });
+        this.props.changeBudget(budget);
     }
 
     addItem(section) {
-        const budget = this.state.budget;
+        const budget = this.props.budget;
         //Fix items
         this.fixItems(budget, section);
         //New item
@@ -87,22 +83,22 @@ class Budget extends Component {
             key: section.items.length,
             name: "",
             price: null,
-            date: new Date().now,
+            date: Date.now(),
             id: generateId(),
         }
 
         budget.sections[section.key].items.push(newItem);
         this.setState({
-            budget,
             editSection: section,
             editItem: newItem,
             editActive: true,
         });
+        this.props.changeBudget(budget);
     }
 
     deleteItem(section, item) {
         this.editItem(null, null);
-        const budget = this.state.budget;
+        const budget = this.props.budget;
 
         // First animate item
         this.setState({
@@ -124,18 +120,24 @@ class Budget extends Component {
     }
 
     fixItems(budget, section) {
-        //const budget = this.state.budget;
+        //const budget = this.props.budget;
         //Fix items
         budget.sections[section.key].items = budget.sections[section.key].items.filter(item => item !== null).map((item, i) => {
             return {...item, key: i}
         });
-        this.setState({
-            budget,
+        this.props.changeBudget(budget);
+    }
+    fixSections(budget) {
+        //const budget = this.props.budget;
+        //Fix items
+        budget.sections = budget.sections.filter(section => section !== null).map((section, i) => {
+            return {...section, key: i}
         });
+        this.props.changeBudget(budget);
     }
 
     addCategory() {
-        const budget = this.state.budget;
+        const budget = this.props.budget;
         const newSection = {
             key: budget.sections.length,
             title: "New Category",
@@ -143,22 +145,36 @@ class Budget extends Component {
             items: [],
         }
         budget.sections.push(newSection);
-        this.setState({
-            budget,
-        });
+        this.props.changeBudget(budget);
     }
 
     changeTitle(e) {
-        const budget = this.state.budget;
+        const budget = this.props.budget;
         budget.title = e.target.value;
-        this.setState({
-            budget,
-        });
+        this.props.changeBudget(budget);
+    }
+
+    requestRemoveCategory(section) {
+        if (window.confirm(`Delete "${section.title}"? All items listed in this category will be deleted.`)) {
+            this.deleteCategory(section);
+        };
+        
+    }
+
+    deleteCategory(section) {
+        const budget = this.props.budget;
+        if (budget.sections.length < 2) {
+            budget.sections = [];
+        } else {
+            budget.sections.splice(section.key, 1);
+        }
+        this.fixSections(this.props.budget);
     }
 
     render() {
+        const budget = this.props.budget;
         let percentUsed = 0;
-        this.state.budget.sections.forEach(section => {
+        this.props.budget.sections.forEach(section => {
             percentUsed+=parseFloat(section.percent);
         });
         if (isNaN(percentUsed)) percentUsed = "";
@@ -170,23 +186,23 @@ class Budget extends Component {
                 </div>
                 <div className='budgetTitle'>
                     
-                    <input type="text" value={this.state.budget.title} onInput={this.changeTitle} />
+                    <input type="text" value={budget.title} onInput={this.changeTitle} />
                 </div>
                 <div className='budgetAmountCont'>
-                    Budget: <input type='text' value={this.state.budget.budgetAmount} onInput={this.changeBudget} />
+                    Budget: <input type='text' value={budget.budgetAmount} onInput={this.changeBudget} />
                     <div className='percentUsed'>{percentUsed}% used</div>
                 </div>
 
                 <div className='sections'>
-                    {this.state.budget.sections.map((section, k) => {
+                    {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} section={section} budget={this.state.budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} />
+                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} />
                         )
                     })}
                     {/* Add section */}
                     <div className='BudgetSection'>
                         <div className='addSection'>
-                            New Category
+                            Add Category
                             <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' onClick={this.addCategory} />
                         </div>
                     </div>
