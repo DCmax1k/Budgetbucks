@@ -10,11 +10,12 @@ class Budget extends Component {
         super(props);
         this.state = {
             budget: props.budget,
-            active: true,//false,
+            active: false,
 
             editSection: null,
             editItem: null,
             editActive: false,
+            animateItem: null, // index of item
         }
 
         this.changeBudget = this.changeBudget.bind(this);
@@ -53,6 +54,11 @@ class Budget extends Component {
             this.setState({
                 editActive: false,
             });
+            setTimeout(() => {
+                this.setState({
+                    editItem: null,
+                });
+            }, 300)
         } else {
            this.setState({
                 editSection: section,
@@ -95,9 +101,19 @@ class Budget extends Component {
     deleteItem(section, item) {
         this.editItem(null, null);
         const budget = this.state.budget;
-        budget.sections[section.key].items.splice(item.key, 1);
-        this.fixItems(budget, section);
-        //console.log(this.state.budget.sections[section.key].items);
+
+        // First animate item
+        this.setState({
+            animateItem: item.key,
+        });
+        // Actually remove
+        setTimeout(() => {
+            budget.sections[section.key].items.splice(item.key, 1);
+            this.setState({
+                animateItem: null,
+            });
+            this.fixItems(budget, section);
+        }, 300);
     }
 
     fixItems(budget, section) {
@@ -139,6 +155,7 @@ class Budget extends Component {
             percentUsed+=parseFloat(section.percent);
         });
         if (isNaN(percentUsed)) percentUsed = "";
+
         return (
             <div className={"Budget " + (this.state.active ? "active" : "")}>
                 <div className='dropdown' onClick={this.toggleActive} >
@@ -156,7 +173,7 @@ class Budget extends Component {
                 <div className='sections'>
                     {this.state.budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} section={section} budget={this.state.budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} />
+                            <BudgetSection key={section.key} section={section} budget={this.state.budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} />
                         )
                     })}
                     {/* Add section */}

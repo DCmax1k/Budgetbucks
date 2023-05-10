@@ -95,6 +95,15 @@
     align-items: center;
     flex-shrink: 0;
     position: relative;
+    animation: newSection 0.3s ease forwards;
+}
+@keyframes newSection {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .addSection {
@@ -193,6 +202,38 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    animation: itemEnter 0.3s ease forwards;
+    border: 2px solid transparent;
+    transition: border 0.3s ease;
+}
+@keyframes itemEnter {
+    from {
+        height: 0;
+    }
+    to {
+        height: 40px;
+    }
+}
+.Item.leave {
+    animation: itemLeave 0.3s ease forwards;
+}
+@keyframes itemLeave {
+    from {
+        height: 40px;
+        border: 2px solid #009BCC;
+    }
+    50% {
+        margin-top: 10px;
+    }
+    to {
+        height: 0;
+        margin-top: 0;
+        border: 0px solid transparent;
+    }
+}
+.Item.focused {
+    border: 2px solid #009BCC;
+    
 }
 /* .Item.date {
     margin-top: 30px;

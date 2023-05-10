@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import Budget from './Budget';
 import "./stylesheets/Dashboard.css";
 
+import generateId from './util/generateId';
+
 // TESTING BUDGET PLACEHOLDER'
 const testBudget = {
-    
+
     title: "May 1 - May 7",
     budgetAmount: 446.50,
     sections: [{
@@ -17,6 +19,7 @@ const testBudget = {
             name: "New Item",
             price: 0,
             date: Date.now(),
+            id: generateId(),
         }],
        }, {
         key: 1,
@@ -24,9 +27,10 @@ const testBudget = {
         percent: 10,
         items: [{
             key: 0,
-            name: "Deposit check slip 9001",
+            name: "Deposit check slip 392",
             price: 35.00,
             date: Date.now(),
+            id: generateId(),
         }],
     },// {
     //     key: 2,

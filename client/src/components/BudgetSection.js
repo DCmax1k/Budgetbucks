@@ -63,6 +63,8 @@ class BudgetSection extends Component {
         if (spentText>totalText) red = true;
         if (spentText<totalText) red = false;
 
+        const animateItem = this.props.animateItem; // id of item to animate remove
+        const currentItem = this.props.currentItem;
 
         return (
             <div className="BudgetSection" key={section.key}>
@@ -85,7 +87,7 @@ class BudgetSection extends Component {
                 <div className='Items'>
                     {section.items.map((item, k) => {
                     return(
-                        <Item key={item.date} budget={budget} section={section} item={item} editItem={this.editItem} />
+                        <Item key={item.date} budget={budget} section={section} item={item} editItem={this.editItem} animateItem={animateItem === k ? true : false} currentItem={currentItem === null ? false : currentItem.id === item.id} />
                     )
                 })}
                 </div>

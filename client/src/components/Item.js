@@ -21,13 +21,15 @@ class Item extends Component {
     }
 
     render() {
+        const animateItem = this.props.animateItem; // boolean for animation
+        const currentItem = this.props.currentItem; // boolean for focused item
         return (
-            <div className={`Item ${this.state.dateActive ? "date" : ""}`} onClick={this.editItem}>
+            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem}>
                 {/* <div className={`itemDate ${this.state.dateActive ? "date" : ""}`}>
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}
                 <div className='itemName' title={this.item.name}>
-                    {this.item.name.length > 16 ? this.item.name.substring(0, 15) + "..." : this.item.name}
+                    {this.item.name.length > 20 ? this.item.name.substring(0, 20) + "..." : this.item.name}
                 </div>
                 <div className='itemPrice'>
                    {this.item.price} 
