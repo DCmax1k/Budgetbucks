@@ -34,6 +34,10 @@ app.get('/dashboard', (req, res) => {
     
 });
 
+app.get('/agreements/:page', (req, res) => {
+    res.sendFile(__dirname + '/client/build/index.html');
+});
+
 // Routes
 const loginRoute = require('./routes/login');
 app.use('/login', loginRoute);
