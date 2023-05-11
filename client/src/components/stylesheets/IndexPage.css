@@ -1,10 +1,18 @@
 
+.IndexPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .titleLogo {
     margin-top: 5vw;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
 }
 .titleLogo > img {
     width: calc(10vw + 200px);
