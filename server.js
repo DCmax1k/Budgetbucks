@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const { SitemapStream, streamToPromise } = require('sitemap');
+const { createGzip } = require('zlib');
 
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -23,15 +25,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
 
-app.get('/:route', (req, res) => {
+app.get('/dashboard', (req, res) => {
     // Check auth
-    if (req.params.route === 'dashboard') {
-        if (!authToken(req, res)) {
-            res.redirect('/');
-        }
-        
+    if (!authToken(req, res)) {
+        res.redirect('/');
     }
-
     res.sendFile(__dirname + '/client/build/index.html');
     
 });
@@ -43,6 +41,38 @@ app.use('/login', loginRoute);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Server started on port 3000');
+});
+
+// Sitemap
+let sitemap;
+app.get('/sitemap.xml', async (req, res) => {
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+
+    if (sitemap) {
+        res.send(sitemap);
+        return;
+    }
+
+    try {
+      const smStream = new SitemapStream({ hostname: 'https://www.budgetbucks.app/' });
+      const pipeline = smStream.pipe(createGzip());
+
+      smStream.write({ url: '/login'});
+      smStream.write({ url: '/signup'});
+      smStream.write({ url: '/agreements/termsofuse'});
+      smStream.write({ url: '/agreements/privacypolicy'});
+
+      // cache the response
+      streamToPromise(pipeline).then(sm => sitemap = sm);
+      
+      smStream.end();
+
+      // Show errors and response
+      pipeline.pipe(res).on('error', (e) => {throw e});
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => {
