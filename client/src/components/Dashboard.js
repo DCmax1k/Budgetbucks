@@ -6,20 +6,22 @@ import "./stylesheets/Dashboard.css";
 import generateId from './util/generateId';
 
 // TESTING BUDGET PLACEHOLDER'
-const testBudget = {
+const testBudget2 = {
     id: generateId(),
     title: "May 8 - May 16",
+    dateStart: null,
+    dateEnd: null,
     budgetAmount: 0,
     sections: [
 ],
 }
-const testBudget2 = {
+const testBudget = {
     id: generateId(),
-    title: "May 1 - May 7",
+    title: "",
     budgetAmount: 446.50,
     sections: [{
         key: 0,
-        title: "Spending",
+        title: "",
         percent: 30,
         id: generateId(),
         items: [{
@@ -40,7 +42,8 @@ class Dashboard extends Component {
         super(props);
         this.user = {};
         this.state = {
-            budgets: [testBudget, testBudget2],
+            budgets: [/*testBudget, */testBudget2],
+            theme: 'dark',
         }
 
         this.changeBudget = this.changeBudget.bind(this);
@@ -62,18 +65,18 @@ class Dashboard extends Component {
     render() {
         return (
             <div className="Dashboard">
-                <div className='floatingIcon' onClick={this.floatingIcon}>
+                {/* <div className='floatingIcon' onClick={this.floatingIcon}>
                     <img src='/images/roundIcon.svg' alt='Icon' />
-                </div>
+                </div> */}
 
                 <div className='title'>
                     <img src='/images/threeLetterLogoPlus.svg' alt='BBS' />
                 </div>
 
                 <div className='budgets'>
-                    {this.state.budgets.map(budget => {
+                    {this.state.budgets.map((budget, i) => {
                         return (
-                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} />
+                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} />
                         )
                     })}
                 </div>

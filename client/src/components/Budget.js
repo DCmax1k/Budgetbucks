@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import "./stylesheets/Budget.css";
 
 import BudgetSection from "./BudgetSection";
-import EditItem from "./EditItem";
+//import EditItem from "./EditItem";
 import generateId from './util/generateId';
 
 class Budget extends Component {
@@ -10,11 +10,9 @@ class Budget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: false,
+            active: this.props.defaultActive,
 
-            editSection: null,
             editItem: null,
-            editActive: false,
             animateItem: null,
         }
 
@@ -30,12 +28,13 @@ class Budget extends Component {
         this.changeTitle = this.changeTitle.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
         this.requestRemoveCategory = this.requestRemoveCategory.bind(this);
+        this.changeStartDate = this.changeStartDate.bind(this);
+        this.changeEndDate = this.changeEndDate.bind(this);
     }
 
     toggleActive() {
         this.setState({
             active: !this.state.active,
-            editActive: false,
         });
     }
 
@@ -50,18 +49,13 @@ class Budget extends Component {
 
     editItem(section, item) {
         if (section === null && item === null) {
-            this.setState({
-                editActive: false,
-            });
             setTimeout(() => {
                 this.setState({
                     editItem: null,
                 });
-            }, 300)
+            }, 1)
         } else {
            this.setState({
-                editSection: section,
-                editActive: true,
                 editItem: item,
             }); 
         }
@@ -88,12 +82,12 @@ class Budget extends Component {
         }
 
         budget.sections[section.key].items.push(newItem);
-        this.setState({
-            editSection: section,
-            editItem: newItem,
-            editActive: true,
-        });
         this.props.changeBudget(budget);
+        setTimeout(() => {
+            this.setState({
+                editItem: newItem,
+            });
+        }, 302);
     }
 
     deleteItem(section, item) {
@@ -140,9 +134,10 @@ class Budget extends Component {
         const budget = this.props.budget;
         const newSection = {
             key: budget.sections.length,
-            title: "New Category",
-            percent: 10,
+            title: "",
+            percent: 0,
             items: [],
+            id: generateId(),
         }
         budget.sections.push(newSection);
         this.props.changeBudget(budget);
@@ -153,9 +148,19 @@ class Budget extends Component {
         budget.title = e.target.value;
         this.props.changeBudget(budget);
     }
+    changeStartDate(e) {
+        const budget = this.props.budget;
+        budget.startDate = e.target.value;
+        this.props.changeBudget(budget);
+    }
+    changeEndDate(e) {
+        const budget = this.props.budget;
+        budget.endDate = e.target.value;
+        this.props.changeBudget(budget);
+    }
 
     requestRemoveCategory(section) {
-        if (window.confirm(`Delete "${section.title}"? All items listed in this category will be deleted.`)) {
+        if (window.confirm(`Delete "${section.title.length > 0 ? section.title : "Unnamed"}"? All items listed in this category will be deleted.`)) {
             this.deleteCategory(section);
         };
         
@@ -169,6 +174,20 @@ class Budget extends Component {
             budget.sections.splice(section.key, 1);
         }
         this.fixSections(this.props.budget);
+    }
+
+    getDate(term, date) {
+        if (!date) return term;
+        switch(term) {
+            case 'm':
+                return parseInt(date.substring(5, 7));
+            case 'd':
+                return parseInt(date.substring(8,10));
+            default:
+                return term;
+        }
+        
+        
     }
 
     render() {
@@ -186,29 +205,37 @@ class Budget extends Component {
                 </div>
                 <div className='budgetTitle'>
                     
-                    <input type="text" value={budget.title} onInput={this.changeTitle} />
+                    {/* <input type="text" value={budget.title} onInput={this.changeTitle} placeholder='Enter budget title...' /> */}
+
+                    <div className='dateText'>{this.getDate('m', budget.startDate)} / {this.getDate('d', budget.startDate)}</div>
+                    <input type="date" value={budget.startDate} onInput={this.changeStartDate}  />
+                    &nbsp; <img src='/images/rightArrow.svg' alt='to' /> &nbsp;
+                    <div className='dateText'>{this.getDate('m', budget.endDate)} / {this.getDate('d', budget.endDate)}</div>
+                    <input type="date" value={budget.endDate} onInput={this.changeEndDate}  />
                 </div>
                 <div className='budgetAmountCont'>
-                    Budget: <input type='text' value={budget.budgetAmount} onInput={this.changeBudget} />
-                    <div className='percentUsed'>{percentUsed}% used</div>
+                    Total funds: <input type='text' value={budget.budgetAmount} onInput={this.changeBudget} />
+                    <div className='percentUsed'>{percentUsed.toFixed(0)}% used</div>
                 </div>
 
                 <div className='sections'>
                     {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} />
+                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} />
                         )
                     })}
                     {/* Add section */}
-                    <div className='BudgetSection'>
-                        <div className='addSection'>
+                    <div className='BudgetSection addSection'>
+                        <div className='innerAddSection' onClick={this.addCategory}>
                             Add Category
-                            <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' onClick={this.addCategory} />
+                            <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' />
                         </div>
+
+                        <div className='rightBorder'></div>
                     </div>
+                    
                 </div>
                 
-                <EditItem active={this.state.editActive} section={this.state.editSection} item={this.state.editItem} changeItem={this.changeItem} editItem={this.editItem} deleteItem={this.deleteItem} />
 
             </div>
         )
