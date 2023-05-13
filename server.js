@@ -43,10 +43,6 @@ const loginRoute = require('./routes/login');
 app.use('/login', loginRoute);
 
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log('Server started on port 3000');
-});
-
 // Sitemap
 let sitemap;
 app.get('/sitemap.xml', async (req, res) => {
@@ -81,6 +77,9 @@ app.get('/sitemap.xml', async (req, res) => {
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => {
     console.log('Connected to MongoDB');
+    app.listen(process.env.PORT || 3000, () => {
+        console.log('Server started on port 3000');
+    });
 });
 console.log(require('crypto').randomBytes(256).toString('base64'));
 
