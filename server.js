@@ -81,7 +81,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => 
         console.log('Server started on port 3000');
     });
 });
-console.log(require('crypto').randomBytes(256).toString('base64'));
 
 function authToken(req, res) {
     const result = false;

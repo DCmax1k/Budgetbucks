@@ -8,16 +8,16 @@ import generateId from './util/generateId';
 // TESTING BUDGET PLACEHOLDER'
 const testBudget2 = {
     id: generateId(),
-    title: "May 8 - May 16",
-    dateStart: null,
-    dateEnd: null,
+    dateStart: '',
+    dateEnd: '',
     budgetAmount: 0,
     sections: [
 ],
 }
 const testBudget = {
     id: generateId(),
-    title: "",
+    dateStart: '',
+    dateEnd: '',
     budgetAmount: 446.50,
     sections: [{
         key: 0,

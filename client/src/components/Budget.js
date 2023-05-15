@@ -4,6 +4,7 @@ import "./stylesheets/Budget.css";
 import BudgetSection from "./BudgetSection";
 //import EditItem from "./EditItem";
 import generateId from './util/generateId';
+import DatePicker from './DatePicker';
 
 class Budget extends Component {
 
@@ -190,6 +191,13 @@ class Budget extends Component {
         
     }
 
+    clickFirstDate() {
+        document.getElementById('dateStart').click();
+    }
+    clickSecondDate() {
+        document.getElementById('dateEnd').select();
+    }
+
     render() {
         const budget = this.props.budget;
         let percentUsed = 0;
@@ -208,10 +216,12 @@ class Budget extends Component {
                     {/* <input type="text" value={budget.title} onInput={this.changeTitle} placeholder='Enter budget title...' /> */}
 
                     <div className='dateText'>{this.getDate('m', budget.startDate)} / {this.getDate('d', budget.startDate)}</div>
-                    <input type="date" value={budget.startDate} onInput={this.changeStartDate}  />
+                    <DatePicker date={budget.startDate} changeDate={this.changeStartDate} />
+                    
                     &nbsp; <img src='/images/rightArrow.svg' alt='to' /> &nbsp;
                     <div className='dateText'>{this.getDate('m', budget.endDate)} / {this.getDate('d', budget.endDate)}</div>
-                    <input type="date" value={budget.endDate} onInput={this.changeEndDate}  />
+                    <DatePicker date={budget.endDate} changeDate={this.changeEndDate} />
+                    
                 </div>
                 <div className='budgetAmountCont'>
                     Total funds: <input type='text' value={budget.budgetAmount} onInput={this.changeBudget} />

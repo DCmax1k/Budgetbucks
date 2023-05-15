@@ -47,22 +47,40 @@
     width: 20px;
     margin: 0 10px;
 }
-.budgetTitle > input {
-    border: none;
-    outline: none;
-    background-color: #353535;
-    color: white;
-    font-size: 23px;
-    letter-spacing: 2px;
-    width: 25px
-}
-.budgetTitle > input::-webkit-calendar-picker-indicator {
-    background-color: #b79c63;
-    border-radius: 5px;
+
+.DatePicker {
+    width: 32px;
+    background-color: #48639c;
+    height: 30px;
+    border-radius: 10px;
+    position: relative;
     cursor: pointer;
 }
-.budgetTitle > input::-webkit-calendar-picker-indicator {
-    filter: invert(100%);
+.DatePicker > .calendarIcon {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+.DatePicker > .calendarIcon > img {
+    height: 75%;
+    width: 75%;
+}
+.DatePicker > input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    opacity: 0;
+}
+.DatePicker > input::-webkit-calendar-picker-indicator {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
 }
 
 .budgetAmountCont {
@@ -115,13 +133,20 @@
     align-items: center;
     flex-shrink: 0;
     position: relative;
-    animation: newSection 0.3s ease forwards;
+    animation: newSection 0.3s ease none;
 }
 @keyframes newSection {
     from {
+        width: 0;
+        min-width: 0;
+        opacity: 0;
+    }
+    50% {
         opacity: 0;
     }
     to {
+        width: 18vw;
+        min-width: 320px;
         opacity: 1;
     }
 }
