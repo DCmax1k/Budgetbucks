@@ -24,6 +24,7 @@ class Item extends Component {
     }
 
     changeItem(item, type, e, section) {
+        console.log(item, type, e, section);
         let value = e.target.value;
         if (type === 'price') {
             value = value === "" ? 0 : value[value.length-1] === "." ? value : value.substring(value.length-2) === ".0" ? value : isNaN(value) ? 0 : parseFloat(value);
@@ -56,15 +57,15 @@ class Item extends Component {
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}
                 <div className='row1 row'>
-                    <div className='itemName' title={this.item.name}>
-                        {this.item.name.length > 20 ? this.item.name.substring(0, 20) + "..." : this.item.name}
+                    <div className='itemName' title={item.name}>
+                        {item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name}
                     </div>
                     <div className='itemPrice'>
-                        ${this.item.price} 
+                        ${item.price} 
                     </div>
                 </div>
                 <div className='row2 row'>
-                    <input type='text' placeholder='Item name' value={this.item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
+                    <input type='text' placeholder='Item name' value={item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
                 </div>
                 <div className='row3 row'>
                     <input type='text' placeholder='Price' value={item.price === null ? 0 : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
