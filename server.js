@@ -26,16 +26,26 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-    // Check auth
-    if (!authToken(req, res)) {
-        res.redirect('/');
-    }
     res.sendFile(__dirname + '/client/build/index.html');
     
 });
 
 app.get('/agreements/:page', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
+});
+
+app.post('/auth', authToken, async (req, res) => {
+
+    try {
+        const user = await User.findOne({_id: req.userId});
+        res.json({
+            status: 'success',
+            user,
+        });
+    } catch(err) {
+        console.error(err);
+    }
+    
 });
 
 // Routes
@@ -82,14 +92,12 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => 
     });
 });
 
-function authToken(req, res) {
-    const result = false;
+function authToken(req, res, next) {
     const token = req.cookies['auth-token'];
-    if (!token) return result;// res.sendStatus(401);
+    if (!token) return res.status(401).json({message: 'No authentication provided. Please login!'});
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return result;//res.sendStatus(403);
+        if (err) return res.status(403).json({message: 'Error logging in. Incorrect information provided.'})
         req.userId = user.userId;
-        result = true;//next();
+        next();
     });
-    return result;
 }

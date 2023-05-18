@@ -16,17 +16,45 @@ function validateUsername(username) {
     return username.length <= 10;
 }
 
+router.post('/', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({username});
+        if (!user) {
+            return res.json({
+                status: 'error',
+                message: 'No user with that username!',
+            });
+        }
+        const checkPass = await bcrypt.compare(password, user.password);
+        if (!checkPass) {
+            return res.json({
+                status: 'error',
+                message: 'Incorrect password!',
+            });
+        }
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+        res.cookie('auth-token', token, { httpOnly: true, expires: new Date(Date.now() + 20 * 365 * 24 * 60 * 60 * 1000)});
+
+        return res.json({
+            status: 'success',
+            message: 'User loggerd in successfully!',
+        });
+    } catch(err) {
+        console.error(err);
+    }
+});
 
 router.post('/createaccount', async (req, res) => {
     try {
         const {  username, email, password} = req.body;
         const checkUser = await User.findOne({ username });
         if (checkUser) {
-            return res.json({status: 'Username already exists'});
+            return res.json({status: 'error', message: 'Username already exists'});
         }
-        if (!validateEmail(email)) return res.json({status: 'Please enter a valid email'});
-        if (!validatePass(password)) return res.json({status: 'Password must be at least 8 characters long'});
-        if (!validateUsername(username)) return res.json({status: 'Username must be 10 characters or less'});
+        if (!validateEmail(email)) return res.json({status: 'error', message: 'Please enter a valid email'});
+        if (!validatePass(password)) return res.json({status: 'error', message: 'Password must be at least 8 characters long'});
+        if (!validateUsername(username)) return res.json({status: 'error', message: 'Username must be 10 characters or less'});
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
@@ -45,7 +73,7 @@ router.post('/createaccount', async (req, res) => {
 });
 
 
-function authToken(req, res) {
+function authToken(req, res, next) {
     const token = req.cookies['auth-token'];
     if (!token) return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {

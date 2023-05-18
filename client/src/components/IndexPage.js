@@ -4,6 +4,7 @@ import "./stylesheets/IndexPage.css";
 import Simple from './Simple';
 import Signup from './Signup';
 import Login from './Login';
+import sendData from './util/sendData';
 
 class IndexPage extends Component {
 
@@ -14,6 +15,19 @@ class IndexPage extends Component {
             animation: false, // If currently animating down
         }
         this.changePage = this.changePage.bind(this);
+    }
+
+    async componentDidMount() {
+        // Check login
+        try {
+            const checkLogin = await sendData('/auth', {});
+            if (checkLogin.status === 'success') {
+                window.location.href = '/dashboard';
+            }
+
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     changePage(page) {

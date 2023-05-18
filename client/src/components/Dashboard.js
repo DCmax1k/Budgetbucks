@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Budget from './Budget';
 import "./stylesheets/Dashboard.css";
+import sendData from './util/sendData';
 
 import generateId from './util/generateId';
 
@@ -11,8 +12,7 @@ const testBudget2 = {
     dateStart: '',
     dateEnd: '',
     budgetAmount: 0,
-    sections: [
-],
+    sections: [],
 }
 const testBudget = {
     id: generateId(),
@@ -21,7 +21,7 @@ const testBudget = {
     budgetAmount: 446.50,
     sections: [{
         key: 0,
-        title: "",
+        title: "Spending",
         percent: 30,
         id: generateId(),
         items: [{
@@ -40,17 +40,51 @@ const testBudget = {
 class Dashboard extends Component {
     constructor(props) {
         super(props);
-        this.user = {};
         this.state = {
-            budgets: [/*testBudget, */testBudget2],
+            budgets: [testBudget, testBudget2],
             theme: 'dark',
+            user: {},
+            loggedIn: false,
+            loadingText: 'Authenticating...',
+            fadeOut: false, // Loading text fade
         }
 
         this.changeBudget = this.changeBudget.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    floatingIcon() {
-        alert("currently still being developed by your top tier engineer");
+    async componentDidMount() {
+        try {
+            const checkLogin = /* {user: {username: 'Dylan'} }; */ await sendData('/auth', {});
+            if (checkLogin.status === 'success') {
+                const user = checkLogin.user;
+                this.setState({
+                    user,
+                    loadingText: 'Welcome back, ' + user.username + '!',
+                });
+                setTimeout(() => {
+                    this.setState({
+                        fadeOut: true,
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            loggedIn: true,
+                        });
+                    }, 300);
+                }, 600);
+            } else {
+                this.setState({
+                    loadingText: checkLogin.message,
+                });
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            }
+            
+
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     changeBudget(budget) {
@@ -63,11 +97,8 @@ class Dashboard extends Component {
     }
 
     render() {
-        return (
-            <div className="Dashboard">
-                {/* <div className='floatingIcon' onClick={this.floatingIcon}>
-                    <img src='/images/roundIcon.svg' alt='Icon' />
-                </div> */}
+        return this.state.loggedIn ? (
+            <div className={`Dashboard ${this.state.loggedIn}`}>
 
                 <div className='title'>
                     <img src='/images/threeLetterLogoPlus.svg' alt='BBS' />
@@ -79,8 +110,18 @@ class Dashboard extends Component {
                             <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} />
                         )
                     })}
+                    {this.state.budgets.length === 0 ? (
+                        <div>
+                            Create a budget!
+                        </div>
+                    ) : null}
                 </div>
                 
+            </div>
+        ) : (
+            <div className={`Dashboard ${this.state.loggedIn} ${this.state.fadeOut ? 'fadeOut' : ''}`}>
+                <img className='loading' src='/images/loading.svg' alt='loading' />
+                {this.state.loadingText}
             </div>
         )
     }

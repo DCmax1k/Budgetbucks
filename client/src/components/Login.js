@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from './Input';
+import sendData from './util/sendData';
 
 class Login extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class Login extends Component {
 
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     updateUsername(e) {
@@ -27,8 +29,19 @@ class Login extends Component {
         });
     }
 
-    submit() {
-        alert('submit');
+    async submit() {
+        // Check login
+        try {
+            const checkLogin = await sendData('/login', {username: this.state.username, password: this.state.password});
+            if (checkLogin.status === 'success') {
+                return window.location.href = '/dashboard';
+            }
+
+            alert(checkLogin.message);
+
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     render() {
@@ -38,8 +51,8 @@ class Login extends Component {
                     Log in
                 </div>
 
-                <Input placeholder="Username" onInput={this.updateUsername} value={this.state.username} />
-                <Input placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
+                <Input type="text" placeholder="Username" onInput={this.updateUsername} value={this.state.username} />
+                <Input type="password" placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
 
                 <div className='submitBtn' onClick={this.submit}>
                     Log in

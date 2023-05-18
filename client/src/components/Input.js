@@ -29,7 +29,7 @@ class Input extends Component {
             <div className='Input'>
                 <div className={`placeholder ${this.state.active}`}>{this.props.placeholder}</div>
 
-                <input type='text' onInput={this.input} value={this.props.value}/>
+                <input type={this.props.type} onInput={this.input} value={this.props.value}/>
 
                 
             </div>

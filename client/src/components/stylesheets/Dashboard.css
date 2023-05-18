@@ -1,3 +1,8 @@
+.Dashboard {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
 .floatingIcon {
     position: absolute;
     left: 10px;
@@ -43,5 +48,37 @@
 @media screen and (max-width: 750px) {
     .budgets {
         padding: 0 1vw;
+    }
+}
+
+.Dashboard.false {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: grey;
+    opacity: 1;
+}
+
+.Dashboard.true {
+    opacity: 1;
+}
+
+.Dashboard.false.fadeOut {
+    opacity: 0;
+}
+
+.Dashboard > .loading {
+    margin: 10vh;
+    height: 20vh;
+    width: 20vh;
+    opacity: 1;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(-360deg);
     }
 }

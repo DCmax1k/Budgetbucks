@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Input from './Input';
 
+import sendData from './util/sendData';
+
 class Signup extends Component {
     constructor(props) {
         super(props);
@@ -14,6 +16,7 @@ class Signup extends Component {
         this.updateUsername = this.updateUsername.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     updateUsername(e) {
@@ -32,8 +35,19 @@ class Signup extends Component {
         });
     }
 
-    submit() {
-        alert('submit');
+    async submit() {
+        // Check login
+        try {
+            const checkLogin = await sendData('/login/createaccount', {username: this.state.username, email: this.state.email, password: this.state.password});
+            if (checkLogin.status === 'success') {
+                return window.location.href = '/dashboard';
+            }
+
+            alert(checkLogin.message);
+
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     render() {
@@ -43,9 +57,9 @@ class Signup extends Component {
                     Sign up!
                 </div>
 
-                <Input placeholder="Username" onInput={this.updateUsername} value={this.state.username} />
-                <Input placeholder="Email" onInput={this.updateEmail} value={this.state.email} />
-                <Input placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
+                <Input type="text" placeholder="Username" onInput={this.updateUsername} value={this.state.username} />
+                <Input type="text" placeholder="Email" onInput={this.updateEmail} value={this.state.email} />
+                <Input type="password" placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
 
                 <div className='submitBtn' onClick={this.submit}>
                     Start budgeting!
