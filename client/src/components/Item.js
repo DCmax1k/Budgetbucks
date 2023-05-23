@@ -24,7 +24,6 @@ class Item extends Component {
     }
 
     changeItem(item, type, e, section) {
-        console.log(item, type, e, section);
         let value = e.target.value;
         if (type === 'price') {
             value = value === "" ? 0 : value[value.length-1] === "." ? value : value.substring(value.length-2) === ".0" ? value : isNaN(value) ? 0 : parseFloat(value);

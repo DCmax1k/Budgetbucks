@@ -29,8 +29,8 @@ class Budget extends Component {
         this.changeTitle = this.changeTitle.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
         this.requestRemoveCategory = this.requestRemoveCategory.bind(this);
-        this.changeStartDate = this.changeStartDate.bind(this);
-        this.changeEndDate = this.changeEndDate.bind(this);
+        this.changeDateStart = this.changeDateStart.bind(this);
+        this.changeDateEnd = this.changeDateEnd.bind(this);
     }
 
     toggleActive() {
@@ -149,14 +149,14 @@ class Budget extends Component {
         budget.title = e.target.value;
         this.props.changeBudget(budget);
     }
-    changeStartDate(e) {
+    changeDateStart(e) {
         const budget = this.props.budget;
-        budget.startDate = e.target.value;
+        budget.dateStart = e.target.value;
         this.props.changeBudget(budget);
     }
-    changeEndDate(e) {
+    changeDateEnd(e) {
         const budget = this.props.budget;
-        budget.endDate = e.target.value;
+        budget.dateEnd = e.target.value;
         this.props.changeBudget(budget);
     }
 
@@ -181,11 +181,11 @@ class Budget extends Component {
         if (!date) return term;
         switch(term) {
             case 'm':
-                return parseInt(date.substring(5, 7));
+                return parseInt(date.split('-')[1]);
             case 'd':
-                return parseInt(date.substring(8,10));
+                return parseInt(date.split('-')[2]);
             default:
-                return term;
+                return parseInt(date.split('-')[0]);
         }
         
         
@@ -215,12 +215,12 @@ class Budget extends Component {
                     
                     {/* <input type="text" value={budget.title} onInput={this.changeTitle} placeholder='Enter budget title...' /> */}
 
-                    <div className='dateText'>{this.getDate('m', budget.startDate)} / {this.getDate('d', budget.startDate)}</div>
-                    <DatePicker date={budget.startDate} changeDate={this.changeStartDate} />
+                    <div className='dateText'>{this.getDate('m', budget.dateStart)} / {this.getDate('d', budget.dateStart)}</div>
+                    <DatePicker date={budget.dateStart} changeDate={this.changeDateStart} />
                     
                     &nbsp; <img src='/images/rightArrow.svg' alt='to' /> &nbsp;
-                    <div className='dateText'>{this.getDate('m', budget.endDate)} / {this.getDate('d', budget.endDate)}</div>
-                    <DatePicker date={budget.endDate} changeDate={this.changeEndDate} />
+                    <div className='dateText'>{this.getDate('m', budget.dateEnd)} / {this.getDate('d', budget.dateEnd)}</div>
+                    <DatePicker date={budget.dateEnd} changeDate={this.changeDateEnd} />
                     
                 </div>
                 <div className='budgetAmountCont'>

@@ -10,7 +10,7 @@
 /* SCROLLBAR */
 *::-webkit-scrollbar {
   width: 0px; 
-  height: 12px;
+  height: 1.2vh;
 }
 *::-webkit-scrollbar-track {
   background-color: #353535; 

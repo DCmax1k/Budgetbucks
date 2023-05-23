@@ -41,7 +41,7 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            budgets: [testBudget, testBudget2],
+            budgets: [],
             theme: 'dark',
             user: {},
             loggedIn: false,
@@ -51,16 +51,18 @@ class Dashboard extends Component {
 
         this.changeBudget = this.changeBudget.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.addBudget = this.addBudget.bind(this);
     }
 
     async componentDidMount() {
         try {
             const checkLogin =await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'Dylan'}, status: 'success' };
+            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: []}, status: 'success' };
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
                     user,
+                    budgets: user.budgets,
                     loadingText: 'Welcome back, ' + user.username + '!',
                 });
                 setTimeout(() => {
@@ -94,12 +96,47 @@ class Dashboard extends Component {
         budgets[index] = budget;
         this.setState({
             budgets,
+            user: {
+                ...this.state.user,
+                budgets,
+            }
         });
+        // Change budget in database
+    }
+
+    pad(d) {
+        return (d < 10) ? '0' + JSON.stringify(d) : JSON.stringify(d);
+    }
+
+    addBudget() {
+        const date = new Date();
+        const endDate = new Date(Date.now() + 1000*60*60*24*7);
+        const newBudget = {
+            id: generateId(),
+            dateStart: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+            dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + endDate.getDate(),
+            budgetAmount: 0,
+            sections: [],
+        };
+        const currentBudgets = this.state.budgets;
+        currentBudgets.unshift(newBudget);
+        this.setState({
+            budgets: currentBudgets,
+        });
+        // Add budget in database
     }
 
     render() {
         return this.state.loggedIn ? (
             <div className={`Dashboard ${this.state.loggedIn}`}>
+
+                <div className='topRightBtns'>
+                    <div className='addBudget' onClick={this.addBudget}>
+                        <img src='/images/plus.svg' alt='add budget plus svg' />
+                        Budget
+                    </div>
+                    <img src='/images/hamMenu.svg' alt='open side menu' className='openMenu' />
+                </div>
 
                 <div className='title'>
                     <img src='/images/threeLetterLogoPlus.svg' alt='BBS' />
@@ -108,11 +145,11 @@ class Dashboard extends Component {
                 <div className='budgets'>
                     {this.state.budgets.map((budget, i) => {
                         return (
-                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} />
+                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} user={this.state.user} />
                         )
                     })}
                     {this.state.budgets.length === 0 ? (
-                        <div>
+                        <div className='create-a-budget' onClick={this.addBudget}>
                             Create a budget!
                         </div>
                     ) : null}
