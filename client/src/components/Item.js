@@ -60,7 +60,7 @@ class Item extends Component {
                         {item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name}
                     </div>
                     <div className='itemPrice'>
-                        ${item.price} 
+                        {item.price > 0 ? '$' : ''}{item.price} 
                     </div>
                 </div>
                 <div className='row2 row'>
@@ -74,7 +74,7 @@ class Item extends Component {
                 </div>
                 
                 <div className='deleteItem' onClick={() => {this.deleteItem(section, item)}}>
-                    Delete Item
+                    Delete
                 </div>
                 
             </div>

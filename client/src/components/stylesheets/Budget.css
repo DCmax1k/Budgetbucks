@@ -323,7 +323,7 @@
 }
 .Item > .deleteItem {
     position: absolute;
-    top: 165px;
+    top: 125px;
     left: 50%;
     transform: translate(-50%, -50%);
     height: 25px;
@@ -354,6 +354,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: height 0.3s ease, opacity 0.3s ease;
 }
 .Item > .row2 > input {
     width: 100%;
@@ -404,7 +405,11 @@
 }
 .Item.focused {
     border: 2px solid #009BCC;
-    height: 190px;
+    height: 150px;
+}
+.Item.focused > .row1 {
+    height: 0;
+    opacity: 0;
 }
 
 .Item > .row1 > .itemPrice {
@@ -436,6 +441,14 @@
     margin-top: 20px;
     margin-bottom: 5px;
     letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.amountLeft.active {
+    opacity: 1;
+}
+.amountLeft.red {
+    color: rgb(165, 82, 82);
 }
 
 .EditItem {

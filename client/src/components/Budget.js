@@ -88,7 +88,7 @@ class Budget extends Component {
             this.setState({
                 editItem: newItem,
             });
-        }, 302);
+        }, 305);
     }
 
     deleteItem(section, item) {
@@ -142,6 +142,14 @@ class Budget extends Component {
         }
         budget.sections.push(newSection);
         this.props.changeBudget(budget);
+
+        setTimeout(() => {
+            const location = `sectionTitle${newSection.id}`;
+            const doc = document.getElementById(location);
+            doc.focus();
+        }, 300);
+        
+        
     }
 
     changeTitle(e) {
@@ -161,7 +169,9 @@ class Budget extends Component {
     }
 
     requestRemoveCategory(section) {
-        if (window.confirm(`Delete "${section.title.length > 0 ? section.title : "Unnamed"}"? All items listed in this category will be deleted.`)) {
+        if (section.items.length === 0) return this.deleteCategory(section);
+        const check = window.confirm(`Delete "${section.title.length > 0 ? section.title : "Unnamed"}"? All items listed in this category will be deleted.`);
+        if (check) {
             this.deleteCategory(section);
         };
         
@@ -181,7 +191,34 @@ class Budget extends Component {
         if (!date) return term;
         switch(term) {
             case 'm':
-                return parseInt(date.split('-')[1]);
+                switch(parseInt(date.split('-')[1])) {
+                    case 1:
+                        return 'Jan';
+                    case 1:
+                        return 'Feb';
+                    case 3:
+                        return 'Mar';
+                    case 4:
+                        return 'Apr';
+                    case 5:
+                        return 'May';
+                    case 6:
+                        return 'Jun';
+                    case 7:
+                        return 'Jul';
+                    case 8:
+                        return 'Aug';
+                    case 9:
+                        return 'Sep';
+                    case 10:
+                        return 'Oct';
+                    case 11:
+                        return 'Nov';
+                    case 12:
+                        return 'Dec';
+                    default:
+                        return 'Jan';
+                }
             case 'd':
                 return parseInt(date.split('-')[2]);
             default:
@@ -215,11 +252,11 @@ class Budget extends Component {
                     
                     {/* <input type="text" value={budget.title} onInput={this.changeTitle} placeholder='Enter budget title...' /> */}
 
-                    <div className='dateText'>{this.getDate('m', budget.dateStart)} / {this.getDate('d', budget.dateStart)}</div>
+                    <div className='dateText'>{this.getDate('m', budget.dateStart)} {this.getDate('d', budget.dateStart)}</div>
                     <DatePicker date={budget.dateStart} changeDate={this.changeDateStart} />
                     
                     &nbsp; <img src='/images/rightArrow.svg' alt='to' /> &nbsp;
-                    <div className='dateText'>{this.getDate('m', budget.dateEnd)} / {this.getDate('d', budget.dateEnd)}</div>
+                    <div className='dateText'>{this.getDate('m', budget.dateEnd)} {this.getDate('d', budget.dateEnd)}</div>
                     <DatePicker date={budget.dateEnd} changeDate={this.changeDateEnd} />
                     
                 </div>

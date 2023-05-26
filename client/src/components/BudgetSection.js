@@ -84,6 +84,8 @@ class BudgetSection extends Component {
         const animateItem = this.props.animateItem;
         const currentItem = this.props.currentItem;
 
+        const amountLeft = totalText - spent;
+
         return (
             <div className="BudgetSection" key={section.key}>
                 {/* <div className='percentCont'>
@@ -95,7 +97,7 @@ class BudgetSection extends Component {
                 </div>
                 
                 <div className='sectionTitle' >
-                    <input type="text" value={section.title} onInput={this.changeName} placeholder='Unnamed' />
+                    <input id={`sectionTitle${section.id}`} type="text" value={section.title} onInput={this.changeName} placeholder='Unnamed' />
     
                 </div>
 
@@ -107,12 +109,6 @@ class BudgetSection extends Component {
                     {section.percent.toFixed(0)}% &nbsp; = &nbsp; ${totalText}
                 </div>
 
-                {/* <div className='fraction' >
-                    <span className={`spent ${red}`}>{spentText}</span>
-                    &nbsp;&nbsp;/&nbsp;&nbsp;
-                    <span className='total'>{totalText}</span>
-                </div> */}
-
                 {/* Items */}
                 <div className='Items'>
                     {section.items.map((item, k) => {
@@ -123,8 +119,8 @@ class BudgetSection extends Component {
                 </div>
 
                 {/* Amount Left / Add item */}
-                <div className='amountLeft'>
-                    ${(totalText - spent).toFixed(2)} LEFT
+                <div className={`amountLeft ${section.items.length === 0 ? '' : 'active'} ${amountLeft<0 ? 'red' : ''}`}>
+                    ${(Math.abs(amountLeft)).toFixed(2)} {amountLeft<0 ? 'OVER BUDGET' : 'LEFT'}
                 </div>
 
                 <div className='addItem' onClick={() => {this.addItem(section)}}>

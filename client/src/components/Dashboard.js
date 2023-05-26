@@ -57,7 +57,7 @@ class Dashboard extends Component {
     async componentDidMount() {
         try {
             const checkLogin =await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: []}, status: 'success' };
+            //const checkLogin = {user: {username: 'Dylan', plus: true, budgets: []}, status: 'success' };
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -113,8 +113,8 @@ class Dashboard extends Component {
         const endDate = new Date(Date.now() + 1000*60*60*24*7);
         const newBudget = {
             id: generateId(),
-            dateStart: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-            dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + endDate.getDate(),
+            dateStart: date.getFullYear() + '-' + this.pad(date.getMonth() + 1) + '-' + this.pad(date.getDate()),
+            dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + this.pad(endDate.getDate()),
             budgetAmount: 0,
             sections: [],
         };
@@ -139,7 +139,7 @@ class Dashboard extends Component {
                 </div>
 
                 <div className='title'>
-                    <img src='/images/threeLetterLogoPlus.svg' alt='BBS' />
+                    <img src={`/images/titleLogo${this.state.user.plus ? 'Plus':''}.svg`} alt='Budget bucks' />
                 </div>
 
                 <div className='budgets'>
