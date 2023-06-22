@@ -18,6 +18,7 @@ class Budget extends Component {
             totalFundsInputWidth: 27 + 12*JSON.stringify(props.budget.budgetAmount).length,
         }
 
+        this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
         this.changeBudget = this.changeBudget.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
         this.modifyBudget = this.modifyBudget.bind(this);
@@ -32,6 +33,7 @@ class Budget extends Component {
         this.requestRemoveCategory = this.requestRemoveCategory.bind(this);
         this.changeDateStart = this.changeDateStart.bind(this);
         this.changeDateEnd = this.changeDateEnd.bind(this);
+        this.changeColor = this.changeColor.bind(this);
     }
 
 
@@ -138,7 +140,21 @@ class Budget extends Component {
         this.props.changeBudget(budget);
     }
 
+    nextColor(lastColor) {
+        const index = this.colors.indexOf(lastColor);
+        let nextIndex = index+1;
+        if (nextIndex >= this.colors.length) nextIndex = 0;
+        console.log(nextIndex);
+        return this.colors[nextIndex];
+    }
+
     addCategory() {
+        let color = this.colors[0];
+        if (this.props.budget.sections.length !== 0) {
+             const lastColor = this.props.budget.sections[this.props.budget.sections.length - 1].color;
+             color = this.nextColor(lastColor);
+             console.log(color);
+        }
         const budget = this.props.budget;
         const newSection = {
             key: budget.sections.length,
@@ -146,7 +162,9 @@ class Budget extends Component {
             percent: 0,
             items: [],
             id: generateId(),
+            color,
         }
+        console.log(newSection);
         budget.sections.push(newSection);
         this.props.changeBudget(budget);
 
@@ -157,6 +175,15 @@ class Budget extends Component {
         }, 300);
         
         
+    }
+
+    changeColor(section, color) {
+        const budget = this.props.budget;
+        console.log(section.id);
+        const idx = budget.sections.findIndex(sec => sec.id === section.id);
+        console.log(budget.sections);
+        budget.sections[idx].color = color;
+        this.props.changeBudget(budget);
     }
 
     changeTitle(e) {
@@ -275,7 +302,7 @@ class Budget extends Component {
                 <div className='sections'>
                     {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} />
+                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
                         )
                     })}
                     {/* Add section */}

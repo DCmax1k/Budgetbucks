@@ -48,7 +48,7 @@ class Item extends Component {
         const { item, section } = this.props;
 
         return (
-            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem}>
+            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem} style={{backgroundColor: section.color}}>
                 {/* <div className={`itemDate ${this.state.dateActive ? "date" : ""}`}>
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}
@@ -65,7 +65,7 @@ class Item extends Component {
                 </div>
                 <div className='row3 row'>
                     <input type='number' placeholder='Price' value={item.price === null ? "" : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
-                    <div className='doneBtn' onClick={this.closeEdit}>
+                    <div className='doneBtn' onClick={this.closeEdit} style={{backgroundColor: section.color}}>
                         Done
                     </div>
                 </div>

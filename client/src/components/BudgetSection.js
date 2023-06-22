@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Item from './Item';
+import ColorSelector from './ColorSelector';
 
 class BudgetSection extends Component {
 
@@ -17,6 +18,7 @@ class BudgetSection extends Component {
         this.changeName = this.changeName.bind(this);
         this.changeItem = this.changeItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
+        this.changeColor = this.changeColor.bind(this);
     }
 
     calculateSpent(section) {
@@ -57,7 +59,7 @@ class BudgetSection extends Component {
 
     calculatePercent(sec, bud) {
         const value = bud.budgetAmount*(sec.percent/100);
-        return value;
+        return value.toFixed(2);
     }
 
     editItem(section, item) {
@@ -71,6 +73,9 @@ class BudgetSection extends Component {
     deleteItem(section, item) {
         this.props.deleteItem(section, item);
     }
+    changeColor(section, color) {
+        this.props.changeColor(section, color);
+    }
 
     render() {
         const { section, budget } = this.props;
@@ -83,7 +88,6 @@ class BudgetSection extends Component {
         const currentItem = this.props.currentItem;
 
         const amountLeft = totalText - spent;
-        console.log(totalText, " ", spent);
 
         return (
             <div className="BudgetSection" key={section.key}>
@@ -91,6 +95,9 @@ class BudgetSection extends Component {
                     <input type='text' className='percent' value={section.percent} onInput={this.changePercent} />
                     &nbsp;%
                 </div> */}
+
+                <ColorSelector section={section} changeColor={this.changeColor} />
+
                 <div className='removeCategory' onClick={() => this.props.requestRemoveCategory(section)} title='Delete category'>
                     <img src='/images/minus.svg' alt='remove category' />
                 </div>
@@ -101,7 +108,7 @@ class BudgetSection extends Component {
                 </div>
 
                 <div className='percentSlider'>
-                    <input type='range' className='slider' value={section.percent} onInput={this.changePercent} min={0} max={100} step={1} />
+                    <input type='range' className='slider' value={section.percent} onInput={this.changePercent} min={0} max={100} step={1} style={{background: section.color}} />
                 </div>
 
                 <div className='percentToAmount'>
@@ -122,7 +129,7 @@ class BudgetSection extends Component {
                     ${(Math.abs(amountLeft)).toFixed(2)} {amountLeft<0 ? 'OVER BUDGET' : 'LEFT'}
                 </div>
 
-                <div className='addItem' onClick={() => {this.addItem(section)}}>
+                <div className='addItem' onClick={() => {this.addItem(section)}} style={{backgroundColor: section.color}} >
                     <img src="/images/plus.svg" alt='add item' /> Add Item
                 </div>
 

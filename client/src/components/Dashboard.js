@@ -24,7 +24,7 @@ const testBudget = {
         title: "Spending",
         percent: 30,
         id: generateId(),
-        color: 'blue',
+        color: '#48639C', // All colors: 48639C 489C74 9C4894 9C4848 9C8A48
         items: [{
             key: 0,
             name: "Chick fil a",
@@ -49,7 +49,6 @@ class Dashboard extends Component {
             loadingText: 'Authenticating...',
             fadeOut: false, // Loading text fade
         }
-
         this.changeBudget = this.changeBudget.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.addBudget = this.addBudget.bind(this);
@@ -137,7 +136,7 @@ class Dashboard extends Component {
             id: generateId(),
             dateStart: date.getFullYear() + '-' + this.pad(date.getMonth() + 1) + '-' + this.pad(date.getDate()),
             dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + this.pad(endDate.getDate()),
-            budgetAmount: 0,
+            budgetAmount: "",
             sections: [],
         };
         const currentBudgets = this.state.budgets;
