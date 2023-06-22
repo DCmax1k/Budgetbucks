@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
-// Live updates of user budget changes. Save to db every 10 secs.
+// Live updates of user budget changes. Save to db every 30 secs, but every user keystroke/ is saved in memory temperarily until saved to db.
 const liveUserBudgets = {}; // { userID: {budgets: [budget1]} } 
 
 setInterval(async () => {
@@ -32,7 +32,15 @@ setInterval(async () => {
 
         console.log("After save: ", liveUserBudgets);
     }
-}, 10000);
+}, 30000);
+
+const getLiveUserBudgets = userID => {
+    if (liveUserBudgets[userID]) {
+        return liveUserBudgets[userID].budgets;
+    } else {
+        return null;
+    }
+}
 
 
 
@@ -46,7 +54,6 @@ router.post('/changebudget', authToken, async (req, res) => {
             liveUserBudgets[user._id] = {budgets: []};
         }
         const index = liveUserBudgets[user._id].budgets.findIndex((b) => b.id == budget.id);
-        console.log('index ', index); // Keeps getting -1 for somereason
         if (index > -1) {
             liveUserBudgets[user._id].budgets[index] = budget;
         } else {
@@ -112,4 +119,7 @@ function authToken(req, res, next) {
 }
 
 
-module.exports = router;
+module.exports = {
+    router,
+    getLiveUserBudgets,
+};

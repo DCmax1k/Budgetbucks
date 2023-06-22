@@ -25,9 +25,15 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
 
+// Routes
+const loginRoute = require('./routes/login');
+app.use('/login', loginRoute);
+
+const dashboardRoute = require('./routes/dashboard');
+app.use('/dashboard', dashboardRoute.router);
+
 app.get('/dashboard', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
-    
 });
 
 app.get('/agreements/:page', (req, res) => {
@@ -38,6 +44,18 @@ app.post('/auth', authToken, async (req, res) => {
 
     try {
         const user = await User.findOne({_id: req.userId});
+
+        // Get any recent unsaved changes from ram on server and replace the db ones with them.
+        const recentBudgets = dashboardRoute.getLiveUserBudgets(user._id);
+        console.log('recent budgets ', recentBudgets);
+        if (recentBudgets) {
+            recentBudgets.forEach(budget => {
+                const index = user.budgets.findIndex(b => b.id === budget.id);
+                user.budgets[index] = budget;
+            });
+        }
+        
+
         res.json({
             status: 'success',
             user,
@@ -47,13 +65,6 @@ app.post('/auth', authToken, async (req, res) => {
     }
     
 });
-
-// Routes
-const loginRoute = require('./routes/login');
-app.use('/login', loginRoute);
-
-const dashboardRoute = require('./routes/dashboard');
-app.use('/dashboard', dashboardRoute);
 
 
 // Sitemap
