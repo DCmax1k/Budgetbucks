@@ -22,7 +22,7 @@ class BudgetSection extends Component {
     calculateSpent(section) {
         let spent = 0;
         section.items.forEach(item => {
-            spent += item.price;
+            spent += item.price ? parseFloat(item.price) : 0;
         });
         return spent;
     }
@@ -57,9 +57,7 @@ class BudgetSection extends Component {
 
     calculatePercent(sec, bud) {
         const value = bud.budgetAmount*(sec.percent/100);
-        if (isNaN(value)) return "rly? a letter?";
-        const spent = parseFloat(value.toFixed(2));
-        return isNaN(spent) ? 0 : typeof(spent) !== 'string' ? spent.toFixed(2) : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
+        return value;
     }
 
     editItem(section, item) {
@@ -85,6 +83,7 @@ class BudgetSection extends Component {
         const currentItem = this.props.currentItem;
 
         const amountLeft = totalText - spent;
+        console.log(totalText, " ", spent);
 
         return (
             <div className="BudgetSection" key={section.key}>
