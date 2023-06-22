@@ -7,7 +7,6 @@ import generateId from './util/generateId';
 import DatePicker from './DatePicker';
 
 class Budget extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -15,6 +14,8 @@ class Budget extends Component {
 
             editItem: null,
             animateItem: null,
+
+            totalFundsInputWidth: 27 + 12*JSON.stringify(props.budget.budgetAmount).length,
         }
 
         this.changeBudget = this.changeBudget.bind(this);
@@ -33,6 +34,7 @@ class Budget extends Component {
         this.changeDateEnd = this.changeDateEnd.bind(this);
     }
 
+
     toggleActive() {
         this.setState({
             active: !this.state.active,
@@ -40,6 +42,11 @@ class Budget extends Component {
     }
 
     changeBudget(e) {
+        let width = 27 + 12*JSON.stringify(e.target.value).length;
+        if (width < 53) width = 53;
+        this.setState({
+            totalFundsInputWidth: width,
+        });
         const budget = {...this.props.budget, budgetAmount: e.target.value}
         this.props.changeBudget(budget);
     }
@@ -261,7 +268,7 @@ class Budget extends Component {
                     
                 </div>
                 <div className='budgetAmountCont'>
-                    Total funds: <input type='text' value={budget.budgetAmount} onInput={this.changeBudget} />
+                    Total funds: $<input type='number' value={budget.budgetAmount} onInput={this.changeBudget} placeholder='0' style={{width: this.state.totalFundsInputWidth}} />
                     <div className='percentUsed'>{percentUsed.toFixed(0)}% used</div>
                 </div>
 

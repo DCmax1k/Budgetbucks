@@ -24,6 +24,7 @@ const testBudget = {
         title: "Spending",
         percent: 30,
         id: generateId(),
+        color: 'blue',
         items: [{
             key: 0,
             name: "Chick fil a",
@@ -52,11 +53,13 @@ class Dashboard extends Component {
         this.changeBudget = this.changeBudget.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.addBudget = this.addBudget.bind(this);
+        this.saveBudget = this.saveBudget.bind(this);
+        this.componentWillUnmount = this.componentWillUnmount.bind(this);
     }
 
     async componentDidMount() {
         try {
-            const checkLogin =await sendData('/auth', {});
+            const checkLogin = await sendData('/auth', {});
             //const checkLogin = {user: {username: 'Dylan', plus: true, budgets: []}, status: 'success' };
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
@@ -83,14 +86,20 @@ class Dashboard extends Component {
                     window.location.href = '/';
                 }, 2000);
             }
-            
 
         } catch(err) {
             console.error(err);
         }
     }
+    // Once user leaves the dashboard, this saves all unsaved work since the last 10sec save.
+    componentWillUnmount() {
+        // sendData('/dashboard/saveallbudgets', {
+        //     budgets: this.state.user.budgets,
+        // });
+    }
 
-    changeBudget(budget) {
+    // Official change budget function passed. DB saves here.
+    changeBudget(budget, db) {
         const budgets = this.state.budgets;
         const index = budgets.findIndex((b) => b.id === budget.id);
         budgets[index] = budget;
@@ -101,14 +110,27 @@ class Dashboard extends Component {
                 budgets,
             }
         });
-        // Change budget in database
+        // Adds the change to the server. The server will save to db every 10 secs.
+        this.saveBudget(budget);
+    }
+    async saveBudget(budget) {
+
+        const response = await sendData('/dashboard/changebudget', {
+            budget,
+            user: this.state.user,
+        });
+        if (response.status !== 'success') {
+            alert('An error occurred while automatically saving! Please check your internet connection and try again.')
+        }
+
+        
     }
 
     pad(d) {
         return (d < 10) ? '0' + JSON.stringify(d) : JSON.stringify(d);
     }
 
-    addBudget() {
+    async addBudget() {
         const date = new Date();
         const endDate = new Date(Date.now() + 1000*60*60*24*7);
         const newBudget = {
@@ -124,7 +146,12 @@ class Dashboard extends Component {
             budgets: currentBudgets,
         });
         // Add budget in database
+        await sendData('/dashboard/addbudget', {
+            newBudget,
+        });
     }
+
+    // Remove budtget here: async deleteBudget(budget) {}
 
     render() {
         return this.state.loggedIn ? (

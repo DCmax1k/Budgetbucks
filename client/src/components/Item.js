@@ -25,9 +25,6 @@ class Item extends Component {
 
     changeItem(item, type, e, section) {
         let value = e.target.value;
-        if (type === 'price') {
-            value = value === "" ? 0 : value[value.length-1] === "." ? value : value.substring(value.length-2) === ".0" ? value : isNaN(value) ? 0 : parseFloat(value);
-        }
         item[type] = value;
         this.props.changeItem(item, section.key);
     }
@@ -67,7 +64,7 @@ class Item extends Component {
                     <input type='text' placeholder='Item name' value={item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
                 </div>
                 <div className='row3 row'>
-                    <input type='text' placeholder='Price' value={item.price === null ? 0 : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
+                    <input type='number' placeholder='Price' value={item.price === null ? "" : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
                     <div className='doneBtn' onClick={this.closeEdit}>
                         Done
                     </div>

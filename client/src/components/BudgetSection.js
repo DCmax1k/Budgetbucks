@@ -24,7 +24,7 @@ class BudgetSection extends Component {
         section.items.forEach(item => {
             spent += item.price;
         });
-        return isNaN(spent) ? 0 : typeof(spent) !== 'string' ? spent.toFixed(2) : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
+        return spent;
     }
 
     changePercent(e) {

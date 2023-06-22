@@ -52,6 +52,9 @@ app.post('/auth', authToken, async (req, res) => {
 const loginRoute = require('./routes/login');
 app.use('/login', loginRoute);
 
+const dashboardRoute = require('./routes/dashboard');
+app.use('/dashboard', dashboardRoute);
+
 
 // Sitemap
 let sitemap;

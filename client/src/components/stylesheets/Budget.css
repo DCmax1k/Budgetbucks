@@ -31,6 +31,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    z-index: 10;
 }
 .dropdown > img {
     height: 2vh;
@@ -104,13 +105,13 @@
     font-weight: bold;
 }
 .budgetAmountCont > input {
-    width: 15vh;
+    width: 53px;
     font-size: calc(0.3vw + 12px);
     outline: none;
     border: none;
     background-color: #353535;
     border-radius: 5px;
-    color: #FFFFFF;
+    color: #7BDBBF;
     padding: 3px 5px;
     margin-left: 5px;
     text-align: center;
