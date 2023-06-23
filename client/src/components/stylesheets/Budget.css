@@ -100,13 +100,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: calc(0.3vw + 12px);
+    font-size: 1.8vh;
     color: #548B7B;
     font-weight: bold;
 }
 .budgetAmountCont > input {
-    width: 53px;
-    font-size: calc(0.3vw + 12px);
+    width: 3vh;
+    font-size: 1.8vh;
     outline: none;
     border: none;
     background-color: #353535;
@@ -124,6 +124,24 @@
     font-size: 13px;
     color: #B6B6B6;
     font-weight: bold;
+}
+
+.colorBar {
+    width: 80%;
+    height: 0.7vh;
+    border-radius: 9999px;
+    background-color: #363636;
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    display: flex;
+
+}
+.colorFill {
+    height: 100%;
+    border-right: 2px solid white;
 }
 
 .sections {
@@ -217,24 +235,28 @@
     width: 100%;
 }
 .ColorSelector > #otherColors {
-    transition: transform 0.3s ease;
-    transform: translateY(-100%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(-110%);
     pointer-events: none;
+    opacity: 0;
 }
 .ColorSelector > #otherColors.active {
     transform: translateY(0);
     pointer-events: all;
+    opacity: 1;
 }
 .ColorSelector > #currentColor {
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease;
-    transform: translateY(100%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(110%);
     pointer-events: none;
+    opacity: 0;
 }
 .ColorSelector > #currentColor.active {
     transform: translateY(0);
     pointer-events: all;
+    opacity: 1;
 }
 .ColorSelector .outter {
     height: 2vh;
@@ -283,7 +305,7 @@
     /* background: #00A676;  */
     outline: none;
     -webkit-transition: .2s;
-    transition: opacity .2s;
+    transition: opacity .2s, background-color 0.3s ease;
     border-radius: 9999px;
 }
 .percentSlider > .slider::-webkit-slider-thumb {
@@ -370,7 +392,7 @@
     cursor: pointer;
     animation: itemEnter 0.3s ease none;
     border: 2px solid transparent;
-    transition: border 0.3s ease, height 0.3s ease;
+    transition: border 0.3s ease, height 0.3s ease, background-color 0.3s ease;
     overflow: hidden;
     position: relative;
 }
@@ -416,6 +438,7 @@
 .Item > .row2 > input {
     width: 100%;
     /* background-color: #768ab5; */
+    transition: background-color 0.3s ease;
     background-color: rgba(255, 255, 255, 0.247);
     box-shadow: 0 0 3px 3px rgba(107, 107, 107, 0.24);
 }
@@ -426,12 +449,14 @@
 .Item > .row3 > input {
     width: 50%;
     /* background-color: #6d6f9a; */
+    transition: background-color 0.3s ease;
     background-color: rgba(255, 176, 176, 0.342);
     box-shadow: 0 0 3px 3px rgba(107, 107, 107, 0.24);
 }
 .Item > .row3 > .doneBtn {
     width: 40%;
     /* background-color: #5A739B;  */
+    transition: background-color 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -484,6 +509,7 @@
     width: 40%;
     border-radius: 10px;
     /* background-color: #48639C; */
+    transition: background-color 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -15,7 +15,7 @@ class Budget extends Component {
             editItem: null,
             animateItem: null,
 
-            totalFundsInputWidth: 27 + 12*JSON.stringify(props.budget.budgetAmount).length,
+            totalFundsInputWidth: 3 + 1.2*JSON.stringify(props.budget.budgetAmount).length,
         }
 
         this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
@@ -44,8 +44,8 @@ class Budget extends Component {
     }
 
     changeBudget(e) {
-        let width = 27 + 12*JSON.stringify(e.target.value).length;
-        if (width < 53) width = 53;
+        let width = 3 + 1.2*JSON.stringify(e.target.value).length;
+        if (width < 3) width = 3;
         this.setState({
             totalFundsInputWidth: width,
         });
@@ -149,22 +149,31 @@ class Budget extends Component {
     }
 
     addCategory() {
+        const budget = this.props.budget;
+
+        let percent = 10;
+        let percentUsed = 0;
+        budget.sections.forEach(section => {
+            percentUsed+=parseFloat(section.percent);
+        });
+        percent = 100-percentUsed;
+        if (percent > 10) percent = 10;
+
         let color = this.colors[0];
-        if (this.props.budget.sections.length !== 0) {
-             const lastColor = this.props.budget.sections[this.props.budget.sections.length - 1].color;
+        if (budget.sections.length !== 0) {
+             const lastColor = budget.sections[budget.sections.length - 1].color;
              color = this.nextColor(lastColor);
              console.log(color);
         }
-        const budget = this.props.budget;
+
         const newSection = {
             key: budget.sections.length,
             title: "",
-            percent: 0,
+            percent,
             items: [],
             id: generateId(),
             color,
         }
-        console.log(newSection);
         budget.sections.push(newSection);
         this.props.changeBudget(budget);
 
@@ -295,8 +304,15 @@ class Budget extends Component {
                     
                 </div>
                 <div className='budgetAmountCont'>
-                    Total funds: $<input type='number' value={budget.budgetAmount} onInput={this.changeBudget} placeholder='0' style={{width: this.state.totalFundsInputWidth}} />
-                    <div className='percentUsed'>{percentUsed.toFixed(0)}% used</div>
+                    Total funds: $<input type='number' value={budget.budgetAmount} onInput={this.changeBudget} placeholder='0' style={{width: `${this.state.totalFundsInputWidth}vh`}} />
+                    {/* <div className='percentUsed'>{percentUsed.toFixed(0)}% used</div> */}
+                    <div className='colorBar'>
+                        {budget.sections.map(sec => {
+                            return (
+                                <div title={(sec.title ? sec.title : 'Unamed') + ' - ' + sec.percent + '%'} className='colorFill' style={{width: `${sec.percent}%`, backgroundColor: sec.color}}></div>
+                            )
+                        })}
+                    </div>
                 </div>
 
                 <div className='sections'>
