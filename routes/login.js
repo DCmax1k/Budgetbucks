@@ -53,7 +53,7 @@ router.post('/createaccount', async (req, res) => {
             return res.json({status: 'error', message: 'Username already exists'});
         }
         if (!validateEmail(email)) return res.json({status: 'error', message: 'Please enter a valid email'});
-        if (!validatePass(password)) return res.json({status: 'error', message: 'Password must be 8 characters long including a letter, number, and symbol'});
+        if (!validatePass(password)) return res.json({status: 'error', message: 'Password must be at least 8 characters long'});
         //if (!validateUsername(username)) return res.json({status: 'error', message: 'Username must be at least 3 characters or more'});
 
         const hashedPassword = await bcrypt.hash(password, 10);

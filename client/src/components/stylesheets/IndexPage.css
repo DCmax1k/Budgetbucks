@@ -122,8 +122,12 @@
     margin: 2vh 0;
     cursor: pointer;
     font-size: 2.7vh;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.innerRing .submitBtn:hover {
+    transform: scale(1.05);
+    box-shadow: -3px 3px 5px rgba(39, 39, 39, 0.452);
+}
 .passInfo {
     display: flex;
     height: 2vh;

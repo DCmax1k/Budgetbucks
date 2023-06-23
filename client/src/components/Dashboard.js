@@ -14,27 +14,7 @@ const testBudget2 = {
     budgetAmount: 0,
     sections: [],
 }
-const testBudget = {
-    id: generateId(),
-    dateStart: '',
-    dateEnd: '',
-    budgetAmount: 446.50,
-    sections: [{
-        key: 0,
-        title: "Spending",
-        percent: 30,
-        id: generateId(),
-        color: '#48639C', // All colors: 48639C 489C74 9C4894 9C4848 9C8A48
-        items: [{
-            key: 0,
-            name: "Chick fil a",
-            price: 25,
-            date: Date.now(),
-            id: generateId(),
-        }],
-    },
-],
-}
+const testBudget = {"id":"1687469594332-177751","dateStart":"2023-06-25","dateEnd":"2023-07-01","budgetAmount":"250","sections":[{"key":0,"title":"Spending","percent":33,"items":[],"id":"1687480329233-120512","color":"#48639C"},{"key":1,"title":"Savings","percent":45,"items":[],"id":"1687483921309-539926","color":"#9C4894"},{"key":2,"title":"Gas","percent":12,"items":[],"id":"1687483934329-712081","color":"#489C74"},{"key":3,"title":"Investment","percent":10,"items":[],"id":"1687483945553-538974","color":"#9C4848"}]}
 
 
 
@@ -59,7 +39,7 @@ class Dashboard extends Component {
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: []}, status: 'success' };
+            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: [testBudget]}, status: 'success' };
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({

@@ -10,6 +10,7 @@ class Login extends Component {
             username: '',
             email: '',
             password: '',
+            submitBtnText: 'Log in',
         };
 
         this.updateUsername = this.updateUsername.bind(this);
@@ -32,11 +33,16 @@ class Login extends Component {
     async submit() {
         // Check login
         try {
+            this.setState({
+                submitBtnText: 'Loading...',
+            });
             const checkLogin = await sendData('/login', {username: this.state.username, password: this.state.password});
             if (checkLogin.status === 'success') {
                 return window.location.href = '/dashboard';
             }
-
+            this.setState({
+                submitBtnText: 'Log in',
+            });
             alert(checkLogin.message);
 
         } catch(err) {
@@ -55,7 +61,7 @@ class Login extends Component {
                 <Input type="password" placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
 
                 <div className='submitBtn' onClick={this.submit}>
-                    Log in
+                    {this.state.submitBtnText}
                 </div>
 
                 <div className='btn' onClick={() => this.props.changePage('simple')}>

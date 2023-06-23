@@ -11,6 +11,7 @@ class Signup extends Component {
             username: '',
             email: '',
             password: '',
+            submitBtnText: 'Start budgeting!',
         };
 
         this.updateUsername = this.updateUsername.bind(this);
@@ -38,11 +39,16 @@ class Signup extends Component {
     async submit() {
         // Check login
         try {
+            this.setState({
+                submitBtnText: 'Loading...'
+            });
             const checkLogin = await sendData('/login/createaccount', {username: this.state.username, email: this.state.email, password: this.state.password});
             if (checkLogin.status === 'success') {
                 return window.location.href = '/dashboard';
             }
-
+            this.setState({
+                submitBtnText: 'Start budgeting!'
+            });
             alert(checkLogin.message);
 
         } catch(err) {
@@ -62,11 +68,11 @@ class Signup extends Component {
                 <Input type="password" placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
 
                 <div className='passInfo'>
-                    <img src='/images/info.svg' /> Password must be 8 characters long including a letter, number, and symbol
+                    <img src='/images/info.svg' alt='info' /> Password must be at least 8 characters long
                 </div>
 
                 <div className='submitBtn' onClick={this.submit}>
-                    Start budgeting!
+                    {this.state.submitBtnText}
                 </div>
 
                 <div className='btn' onClick={() => this.props.changePage('simple')}>
