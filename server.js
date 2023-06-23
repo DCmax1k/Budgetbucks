@@ -108,7 +108,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => 
 
 function authToken(req, res, next) {
     const token = req.cookies['auth-token'];
-    if (!token) return res.status(401).json({message: 'No authentication provided. Please login!'});
+    if (!token) return res.status(401).json({message: 'No authentication provided! Redirecting to login...'});
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) return res.status(403).json({message: 'Error logging in. Incorrect information provided.'})
         req.userId = user.userId;

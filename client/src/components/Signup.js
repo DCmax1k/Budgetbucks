@@ -61,6 +61,10 @@ class Signup extends Component {
                 <Input type="text" placeholder="Email" onInput={this.updateEmail} value={this.state.email} />
                 <Input type="password" placeholder="Password" onInput={this.updatePassword} value={this.state.password} />
 
+                <div className='passInfo'>
+                    <img src='/images/info.svg' /> Password must be 8 characters long including a letter, number, and symbol
+                </div>
+
                 <div className='submitBtn' onClick={this.submit}>
                     Start budgeting!
                 </div>
