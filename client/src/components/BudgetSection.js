@@ -130,7 +130,7 @@ class BudgetSection extends Component {
                 </div>
 
                 <div className='addItem' onClick={() => {this.addItem(section)}} style={{backgroundColor: section.color}} >
-                    <img src="/images/plus.svg" alt='add item' /> Add Item
+                    <img src="/images/plus.svg" alt='add item' /> Purchase/debit
                 </div>
 
                 <div className='rightBorder'></div>

@@ -49,6 +49,11 @@
     .budgets {
         padding: 0 1vw;
     }
+    .title {
+        height: 5vh;
+        padding-left: 3vh;
+        margin-top: 8vh;
+    }
 }
 
 .Dashboard.false {

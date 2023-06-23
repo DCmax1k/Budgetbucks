@@ -7,13 +7,6 @@ import sendData from './util/sendData';
 import generateId from './util/generateId';
 
 // TESTING BUDGET PLACEHOLDER'
-const testBudget2 = {
-    id: generateId(),
-    dateStart: '',
-    dateEnd: '',
-    budgetAmount: 0,
-    sections: [],
-}
 const testBudget = {"id":"1687469594332-177751","dateStart":"2023-06-25","dateEnd":"2023-07-01","budgetAmount":"250","sections":[{"key":0,"title":"Spending","percent":33,"items":[],"id":"1687480329233-120512","color":"#48639C"},{"key":1,"title":"Savings","percent":45,"items":[],"id":"1687483921309-539926","color":"#9C4894"},{"key":2,"title":"Gas","percent":12,"items":[],"id":"1687483934329-712081","color":"#489C74"},{"key":3,"title":"Investment","percent":10,"items":[],"id":"1687483945553-538974","color":"#9C4848"}]}
 
 
@@ -34,6 +27,7 @@ class Dashboard extends Component {
         this.addBudget = this.addBudget.bind(this);
         this.saveBudget = this.saveBudget.bind(this);
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
+        this.deleteBudget = this.deleteBudget.bind(this);
     }
 
     async componentDidMount() {
@@ -130,6 +124,22 @@ class Dashboard extends Component {
         });
     }
 
+    async deleteBudget(budget) {
+        const budgets = this.state.budgets;
+
+        const index = budgets.findIndex(b => b.id === budget.id);
+        budgets.splice(index, 1);
+        this.setState({
+            user: { ...this.state.user, budgets,},
+            budgets,
+        });
+
+        // Delete in db
+        await sendData('/dashboard/deletebudget', {
+            budget,
+        });
+    }
+
     // Remove budtget here: async deleteBudget(budget) {}
 
     render() {
@@ -151,7 +161,7 @@ class Dashboard extends Component {
                 <div className='budgets'>
                     {this.state.budgets.map((budget, i) => {
                         return (
-                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} user={this.state.user} />
+                            <Budget key={budget.id} budget={budget} changeBudget={this.changeBudget} defaultActive={i===0} theme={this.state.theme} user={this.state.user} deleteBudget={this.deleteBudget} />
                         )
                     })}
                     {this.state.budgets.length === 0 ? (

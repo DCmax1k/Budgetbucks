@@ -118,6 +118,25 @@ function authToken(req, res, next) {
     });
 }
 
+router.post('/deletebudget', authToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
+        const budget = req.body.budget;
+
+        const budgets = user.budgets;
+        const index = budgets.findIndex(b => b.id === budget.id);
+        budgets.splice(index, 1);
+        user.budgets = budgets;
+        await user.save();
+
+        res.json({
+            status: 'success',
+        });
+    } catch(err) {
+        console.error(err);
+    }
+});
+
 
 module.exports = {
     router,

@@ -16,6 +16,8 @@ class Budget extends Component {
             animateItem: null,
 
             totalFundsInputWidth: 3 + 1.2*JSON.stringify(props.budget.budgetAmount).length,
+
+            showTrash: false,
         }
 
         this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
@@ -34,6 +36,8 @@ class Budget extends Component {
         this.changeDateStart = this.changeDateStart.bind(this);
         this.changeDateEnd = this.changeDateEnd.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.showTrash = this.showTrash.bind(this);
+        this.preDeleteBudget = this.preDeleteBudget.bind(this);
     }
 
 
@@ -278,6 +282,22 @@ class Budget extends Component {
         document.getElementById('dateEnd').select();
     }
 
+    showTrash() {
+        this.setState({
+            showTrash: true,
+        });
+        setTimeout(() => {
+            this.setState({
+                showTrash: false,
+            })
+        }, 5000);
+    }
+
+    preDeleteBudget(budget) {
+        const con = window.confirm('Are you sure you would like to delete this budget?');
+        if (con) this.props.deleteBudget(budget);
+    }
+
     render() {
         const budget = this.props.budget;
         let percentUsed = 0;
@@ -293,6 +313,13 @@ class Budget extends Component {
                 <div className='dropdown' onClick={this.toggleActive} >
                     <img src='/images/dropdown.svg' alt='dropdown arrow' />
                 </div>
+
+                <div className='threeCircles'>
+                    <img src='/images/threeCircles.svg' alt='menu' className={`threeCircles ${this.state.showTrash ? 'active' : ''}`} onClick={this.showTrash} />
+                    <img src='/images/trash.svg' alt='trash' className={`trash ${this.state.showTrash ? 'active' : ''}`}  onClick={() => this.preDeleteBudget(budget)} />
+                    
+                </div>
+
                 <div className='budgetTitle'>
                     
                     {/* <input type="text" value={budget.title} onInput={this.changeTitle} placeholder='Enter budget title...' /> */}

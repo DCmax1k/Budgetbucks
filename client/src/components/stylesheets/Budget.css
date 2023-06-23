@@ -21,6 +21,38 @@
     } 
 }
 
+.threeCircles {
+    position: absolute; 
+    top: 0;
+    left: 2vh;
+    height: 5vh;
+    width: 3vh;
+    z-index: 10;
+    overflow: hidden;
+}
+.threeCircles > img {
+    height: 100%;
+    width: 100%;
+    top:0;
+    left: 0;
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.threeCircles > img.threeCircles {
+    transform: translateY(0);
+}
+.threeCircles > img.trash {
+    transform: translateY(-110%);
+}
+.threeCircles > img.threeCircles.active {
+    transform: translateY(110%);
+}
+.threeCircles > img.trash.active {
+    transform: translateY(0);
+}
+
+
 .dropdown {
     position: absolute; 
     top: 0;
@@ -552,7 +584,7 @@
 
 .addItem {
     height: 4vh;
-    width: 40%;
+    width: 50%;
     border-radius: 1vh;
     /* background-color: #48639C; */
     transition: background-color 0.3s ease;

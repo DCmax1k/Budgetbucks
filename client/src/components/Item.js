@@ -61,10 +61,10 @@ class Item extends Component {
                     </div>
                 </div>
                 <div className='row2 row'>
-                    <input type='text' placeholder='Item name' value={item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
+                    <input type='text' placeholder='Label' value={item.name} onInput={(e) => {this.changeItem(item, "name", e, section)}} />
                 </div>
                 <div className='row3 row'>
-                    <input type='number' placeholder='Price' value={item.price === null ? "" : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
+                    <input type='number' placeholder='Amount' value={item.price === null ? "" : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
                     <div className='doneBtn' onClick={this.closeEdit} style={{backgroundColor: section.color}}>
                         Done
                     </div>
