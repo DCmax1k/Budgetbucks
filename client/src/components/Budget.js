@@ -286,6 +286,8 @@ class Budget extends Component {
         });
         if (isNaN(percentUsed)) percentUsed = "";
 
+        const showAd = budget.sections.length >= 4 && this.props.user.plus === false;
+
         return (
             <div className={"Budget " + (this.state.active ? "active" : "")}>
                 <div className='dropdown' onClick={this.toggleActive} >
@@ -323,10 +325,25 @@ class Budget extends Component {
                     })}
                     {/* Add section */}
                     <div className='BudgetSection addSection'>
-                        <div className='innerAddSection' onClick={this.addCategory}>
-                            Add Category
-                            <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' />
+
+                        <div className={`addSectionCont ${showAd ? 'plusad' : ''}`} onClick={() => {
+                            if (!showAd)this.addCategory();
+                            else alert('Budget Bucks Plus is currently private beta only. Coming soon!');
+                            }} >
+                            <div className={`innerAddSection ${showAd ? 'plusad' : ''}`}>
+                                Add Category
+                                <img src='/images/plusPink.svg' alt='add category' className='pinkPlus' />
+                            </div>
+
+                            <div className={`ad ${showAd ? 'plusad' : ''}`}>
+                                <img className='hollowPlus' src='/images/hollowPlus.svg' alt='plus' />
+                                <h3>Add more than 4 categories with</h3>
+                                <img className='threeLttrPlus' src='/images/threeLetterLogoPlus.svg' alt='logo plus' />
+                            </div>
+
                         </div>
+
+                        
 
                         <div className='rightBorder'></div>
                     </div>

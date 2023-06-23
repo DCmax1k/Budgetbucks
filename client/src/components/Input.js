@@ -40,7 +40,7 @@ class Input extends Component {
                 <input type={this.state.type} onInput={this.input} value={this.props.value}/>
 
                 {this.props.type === 'password' ? (
-                    <img onClick={this.toggleType} className='passwordEye' src='/images/eye.svg' />
+                    <img onClick={this.toggleType} className='passwordEye' src='/images/eye.svg' alt='view' />
                 ) : null}
                 
 

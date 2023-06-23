@@ -184,7 +184,49 @@
     height: 100%;
     padding: 10px;
 }
-.addSection > .innerAddSection {
+
+
+.addSection > .addSectionCont {
+    height: 100%;
+    width: 100%;
+    background-color: #333333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border 0.3s ease;
+}
+.addSection > .addSectionCont.plusad {
+    border: 0.7vh #DC9596 dashed;
+}
+.addSection > .addSectionCont > .ad {
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+.addSection > .addSectionCont > .ad.plusad {
+    opacity: 1;
+}
+.addSection > .addSectionCont > .ad > .hollowPlus {
+    height: 7vh;
+    width: 7vh;
+    margin-bottom: 3vh;
+}
+.addSection > .addSectionCont > .ad > h3 {
+    font-size: 2.2vh;
+    width: 80%;
+    text-align: center;
+    line-height: 3vh;
+}
+.addSection > .addSectionCont > .ad > .threeLttrPlus {
+    height: 10vh;
+}
+.addSection > .addSectionCont > .innerAddSection {
     height: 100%;
     width: 100%;
     display: flex;
@@ -194,12 +236,15 @@
     color: white;
     font-size: 18px;
     font-weight: bold;
-    background-color: #333333;
-    border-radius: 20px;
-    cursor: pointer;
     padding-top: 40px;
-
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
+.addSection > .addSectionCont > .innerAddSection.plusad {
+    opacity: 0;
+}
+
+
 .addSection img {
     margin-top: 10px;
 }
