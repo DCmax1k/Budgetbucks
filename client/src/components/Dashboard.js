@@ -59,7 +59,7 @@ class Dashboard extends Component {
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'Dylan', plus: true, budgets: []}, status: 'success' };
+            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: []}, status: 'success' };
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({

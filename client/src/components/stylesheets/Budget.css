@@ -339,14 +339,14 @@
 }
 .percentSlider {
     width: 60%;
-    margin-top: 8px;
-    margin-bottom: 5px;
+    margin-top: 1vh;
+    margin-bottom: 0.5vh;
 }
 .percentSlider > .slider {
     -webkit-appearance: none; 
     appearance: none;
     width: 100%;
-    height: 5px; 
+    height: 0.5vh; 
     /* background: #00A676;  */
     outline: none;
     -webkit-transition: .2s;
@@ -356,8 +356,8 @@
 .percentSlider > .slider::-webkit-slider-thumb {
     -webkit-appearance: none; 
     appearance: none;
-    width: 15px; 
-    height: 15px; 
+    width: 1.5vh; 
+    height: 1.5vh; 
     background: #FFFFFF; 
     border: 3px solid white;
     cursor: pointer; 
@@ -365,8 +365,8 @@
 }
 
 .percentSlider > .slider::-moz-range-thumb {
-    width: 15px; 
-    height: 15px; 
+    width: 1.5vh; 
+    height: 1.5vh; 
     background: #FFFFFF; 
     border: 3px solid white1;
     cursor: pointer; 
@@ -375,13 +375,12 @@
 
 .percentToAmount {
     font-weight: bold;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-    font-size: 15px;
+    margin-bottom: 2vh;
+    letter-spacing: 0.2vh;
+    font-size: 1.5vh;
 }
 
 .sectionTitle {
-    font-size: calc(0.4svw + 12px);
     color: white;
     margin-top: 5px;
     position: relative;
@@ -391,16 +390,18 @@
     outline: none;
     background-color: transparent;
     color: white;
-    font-size: 20px;
+    font-size: 2.2vh;
     text-align: center;
 }
 
 .removeCategory {
     position: absolute;
-    top: 20px;
-    left: 15px;
+    top: 2vh;
+    left: 1.5vh;
     transform: translateY(-50%);
     cursor: pointer;
+    height: 2vh;
+    width: 2vh;
 }
 .removeCategory > img {
     height: 100%;
