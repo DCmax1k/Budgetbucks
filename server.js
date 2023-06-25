@@ -39,6 +39,13 @@ app.get('/dashboard', (req, res) => {
 app.get('/agreements/:page', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
+app.get('/login', (req, res) => {
+    res.redirect('/');
+});
+app.get('/signup', (req, res) => {
+    res.redirect('/');
+});
+
 
 app.post('/auth', authToken, async (req, res) => {
 

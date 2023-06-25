@@ -105,7 +105,7 @@ class Dashboard extends Component {
 
     async addBudget() {
         const date = new Date();
-        const endDate = new Date(Date.now() + 1000*60*60*24*7);
+        const endDate = new Date(Date.now() + 1000*60*60*24*6);
         const newBudget = {
             id: generateId(),
             dateStart: date.getFullYear() + '-' + this.pad(date.getMonth() + 1) + '-' + this.pad(date.getDate()),

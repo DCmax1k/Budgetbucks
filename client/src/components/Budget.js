@@ -290,7 +290,7 @@ class Budget extends Component {
             this.setState({
                 showTrash: false,
             })
-        }, 5000);
+        }, 3000);
     }
 
     preDeleteBudget(budget) {
