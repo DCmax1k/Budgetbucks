@@ -89,8 +89,7 @@ app.get('/sitemap.xml', async (req, res) => {
       const smStream = new SitemapStream({ hostname: 'https://www.budgetbucks.app/' });
       const pipeline = smStream.pipe(createGzip());
 
-      smStream.write({ url: '/login'});
-      smStream.write({ url: '/signup'});
+      smStream.write({ url: '/'});
       smStream.write({ url: '/agreements/termsofuse'});
       smStream.write({ url: '/agreements/privacypolicy'});
 
