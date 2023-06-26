@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');  /* font-family: 'Inter', sans-serif; */
+
 .Dashboard {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -136,4 +138,136 @@
 
 .topRightBtns > .openMenu {
     cursor: pointer;
+}
+
+.HamMenu {
+    height: 100vh;
+    width: 450px;
+    min-width: 25vw;
+    max-width: 100vw;
+    background-color: #404040;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+.HamMenu.true {
+    transform: translateX(0);
+}
+.HamMenu > .heading {
+    margin-top: 5vh;
+    margin-bottom: 2vh;
+    height: 10vh;
+    position: relative;
+    width: 100%;
+}
+.HamMenu > .heading > .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.HamMenu > .heading > .title > h2 {
+    font-size: 3vh;
+    color: #6D6D6D;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+}
+.HamMenu > .heading > .title > img {
+    height: 80%;
+    margin-top: -1.4vh;
+}
+.HamMenu > .heading > .closeMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+.HamMenu > .heading > .closeMenu > img {
+    height: 100%;
+    cursor: pointer;
+}
+
+.DropdownDiv {
+    height: 5vh;
+    width: 80%;
+    overflow: hidden;
+    background-color: #313131;
+    border-radius: 1.3vh;
+    margin-top: 2vh;
+
+}
+.DropdownDiv.true {
+    height: fit-content;
+}
+.DropdownDiv > .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 5vh;
+    width: 100%;
+    position: relative;
+    color: #B1B1B1;
+    cursor: pointer;
+}
+.DropdownDiv > .header > img.dd {
+    position: absolute;
+    top: 50%;
+    right: 2.5vh;
+    transform: translate(50%, -50%);
+    height: 1.5vh;
+    cursor: pointer;
+}
+.DropdownDiv > .header > .menuIcon {
+    height: 5vh;
+    width: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.DropdownDiv > .header > .menuIcon > img.i.person {
+    height: 3vh;
+}
+.DropdownDiv > .header > .menuIcon > img.i.email {
+    height: 2vh;
+}
+.DropdownDiv > .header > img {
+    height: 2vh;
+}
+
+.HamMenu > .logout {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #353535;
+    border-radius: 2vh;
+    color: #B1B1B1;
+    height: 5vh;
+    width: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vh;
+    cursor: pointer;
+}
+
+.HamMenu > .footer {
+    width: 100%;
+    text-align: center;
+    height: 3vh;
+    padding: auto 0;
+    font-size: 1.8vh;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: #616161;
+    font-family: 'Inter', sans-serif;
 }

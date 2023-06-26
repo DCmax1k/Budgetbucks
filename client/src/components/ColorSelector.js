@@ -43,7 +43,7 @@ class ColorSelector extends Component {
                 </div>
 
                 <div id='otherColors' className={active ? 'active' : ''}>
-                    {colors.map(color => <div onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>  <div className='middle'> <div className='inner' style={{backgroundColor: color}}></div> </div>  </div>)}
+                    {colors.map(color => <div key={color} onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>  <div className='middle'> <div className='inner' style={{backgroundColor: color}}></div> </div>  </div>)}
                 </div>
                 
             </div>

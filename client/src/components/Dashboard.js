@@ -5,6 +5,7 @@ import "./stylesheets/Dashboard.css";
 import sendData from './util/sendData';
 
 import generateId from './util/generateId';
+import HamMenu from './HamMenu';
 
 // TESTING BUDGET PLACEHOLDER'
 const testBudget = {"id":"1687469594332-177751","dateStart":"2023-06-25","dateEnd":"2023-07-01","budgetAmount":"250","sections":[{"key":0,"title":"Spending","percent":33,"items":[],"id":"1687480329233-120512","color":"#48639C"},{"key":1,"title":"Savings","percent":45,"items":[],"id":"1687483921309-539926","color":"#9C4894"},{"key":2,"title":"Gas","percent":12,"items":[],"id":"1687483934329-712081","color":"#489C74"},{"key":3,"title":"Investment","percent":10,"items":[],"id":"1687483945553-538974","color":"#9C4848"}]}
@@ -21,19 +22,20 @@ class Dashboard extends Component {
             loggedIn: false,
             loadingText: 'Authenticating...',
             fadeOut: false, // Loading text fade
+            hamMenu: false,
         }
         this.changeBudget = this.changeBudget.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.addBudget = this.addBudget.bind(this);
         this.saveBudget = this.saveBudget.bind(this);
-        this.componentWillUnmount = this.componentWillUnmount.bind(this);
         this.deleteBudget = this.deleteBudget.bind(this);
+        this.toggleHamMenu = this.toggleHamMenu.bind(this);
     }
 
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'Dylan', plus: false, budgets: [testBudget]}, status: 'success' };
+            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -63,12 +65,6 @@ class Dashboard extends Component {
         } catch(err) {
             console.error(err);
         }
-    }
-    // Once user leaves the dashboard, this saves all unsaved work since the last 10sec save.
-    componentWillUnmount() {
-        // sendData('/dashboard/saveallbudgets', {
-        //     budgets: this.state.user.budgets,
-        // });
     }
 
     // Official change budget function passed. DB saves here.
@@ -104,14 +100,25 @@ class Dashboard extends Component {
     }
 
     async addBudget() {
+        const user = this.state.user;
+        const budgetInterval = user.settings.budgetInterval;
+        const copyCategories = user.settings.copyCategories;
+
+        let sections = [];
+        if (copyCategories && user.budgets.length > 0) {
+            sections = user.budgets[0].sections.map(sec => {
+                return { ...sec, items: []};
+            });
+        }
+
         const date = new Date();
-        const endDate = new Date(Date.now() + 1000*60*60*24*6);
+        const endDate = new Date(Date.now() + 1000*60*60*24*(budgetInterval-1));
         const newBudget = {
             id: generateId(),
             dateStart: date.getFullYear() + '-' + this.pad(date.getMonth() + 1) + '-' + this.pad(date.getDate()),
             dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + this.pad(endDate.getDate()),
             budgetAmount: "",
-            sections: [],
+            sections,
         };
         const currentBudgets = this.state.budgets;
         currentBudgets.unshift(newBudget);
@@ -140,18 +147,25 @@ class Dashboard extends Component {
         });
     }
 
-    // Remove budtget here: async deleteBudget(budget) {}
+    toggleHamMenu() {
+        this.setState({
+            hamMenu: !this.state.hamMenu,
+        });
+    }
+
 
     render() {
         return this.state.loggedIn ? (
             <div className={`Dashboard ${this.state.loggedIn}`}>
+
+                <HamMenu user={this.state.user} closeMenu={this.toggleHamMenu} active={this.state.hamMenu} />
 
                 <div className='topRightBtns'>
                     <div className='addBudget' onClick={this.addBudget}>
                         <img src='/images/plus.svg' alt='add budget plus svg' />
                         Budget
                     </div>
-                    <img src='/images/hamMenu.svg' alt='open side menu' className='openMenu' />
+                    <img onClick={this.toggleHamMenu} src='/images/hamMenu.svg' alt='open side menu' className='openMenu' />
                 </div>
 
                 <div className='title'>

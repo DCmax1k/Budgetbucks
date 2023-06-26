@@ -241,7 +241,7 @@ class Budget extends Component {
                 switch(parseInt(date.split('-')[1])) {
                     case 1:
                         return 'Jan';
-                    case 1:
+                    case 2:
                         return 'Feb';
                     case 3:
                         return 'Mar';
@@ -338,7 +338,7 @@ class Budget extends Component {
                     <div className='colorBar'>
                         {budget.sections.map(sec => {
                             return (
-                                <div title={(sec.title ? sec.title : 'Unamed') + ' - ' + sec.percent + '%'} className='colorFill' style={{width: `${sec.percent}%`, backgroundColor: sec.color}}></div>
+                                <div key={sec.id} title={(sec.title ? sec.title : 'Unamed') + ' - ' + sec.percent + '%'} className='colorFill' style={{width: `${sec.percent}%`, backgroundColor: sec.color}}></div>
                             )
                         })}
                     </div>

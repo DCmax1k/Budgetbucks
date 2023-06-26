@@ -29,6 +29,13 @@ const UserSchema = new mongoose.Schema({
     budgets: {
         type: [Object],
         default: [],
+    },
+    settings: {
+        type: Object,
+        default: {
+            copyCategories: true,
+            budgetInterval: 7,
+        }
     }
 
 });
