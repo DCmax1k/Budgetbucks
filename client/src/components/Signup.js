@@ -18,6 +18,19 @@ class Signup extends Component {
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.submit = this.submit.bind(this);
+        this.keySubmit = this.keySubmit.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('keyup', this.keySubmit)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keyup', this.keySubmit);
+    }
+    keySubmit(e) {
+        if (e.key === 'Enter') {
+            this.submit();
+        }
     }
 
     updateUsername(e) {

@@ -217,6 +217,9 @@
     color: #B1B1B1;
     cursor: pointer;
 }
+.DropdownDiv > .header > h3 {
+    font-size: 2vh;
+}
 .DropdownDiv > .header > img.dd {
     position: absolute;
     top: 50%;
@@ -238,13 +241,16 @@
 .DropdownDiv > .header > .menuIcon > img.i.email {
     height: 2vh;
 }
+.DropdownDiv > .header > .menuIcon > img.i.settings {
+    height: 3vh;
+}
 .DropdownDiv > .header > img {
     height: 2vh;
 }
 
 .HamMenu > .logout {
     position: absolute;
-    bottom: 5vh;
+    bottom: 25vh;
     left: 50%;
     transform: translateX(-50%);
     background-color: #353535;
@@ -262,7 +268,7 @@
 .HamMenu > .footer {
     width: 100%;
     text-align: center;
-    height: 3vh;
+    height: 23vh;
     padding: auto 0;
     font-size: 1.8vh;
     position: absolute;
