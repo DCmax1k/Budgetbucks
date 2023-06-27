@@ -157,10 +157,12 @@
     top: 0;
     right: 0;
     transform: translateX(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: -1vh 0 3vh 0 transparent;
 }
 .HamMenu.true {
     transform: translateX(0);
+    box-shadow: -1vh 0 3vh 0 rgba(0, 0, 0, 0.5);
 }
 .HamMenu > .heading {
     margin-top: 5vh;

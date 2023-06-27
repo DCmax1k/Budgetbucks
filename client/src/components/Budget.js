@@ -181,13 +181,23 @@ class Budget extends Component {
         budget.sections.push(newSection);
         this.props.changeBudget(budget);
 
+        //Scroll over
+        const doc2 = document.querySelector('.Budget > .sections');
+        this.animateScrollOver(doc2, 1);
+
         setTimeout(() => {
+            // Auto select title input
             const location = `sectionTitle${newSection.id}`;
             const doc = document.getElementById(location);
             doc.focus();
         }, 300);
-        
-        
+    }
+    animateScrollOver(doc, i) {
+        if (i >= 100) return;
+        doc.scrollLeft = doc.scrollWidth;
+        setTimeout(() => {
+            this.animateScrollOver(doc, i+1)
+        },1);
     }
 
     changeColor(section, color) {
