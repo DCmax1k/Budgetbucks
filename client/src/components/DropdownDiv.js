@@ -9,6 +9,7 @@ class DropdownDiv extends Component {
 
         this.state = {
             active: false,
+            height: '5vh',
         }
 
         this.toggleActive = this.toggleActive.bind(this);
@@ -18,6 +19,7 @@ class DropdownDiv extends Component {
     toggleActive() {
         this.setState({
             active: !this.state.active,
+            height: this.state.height === '5vh' ? this.props.height : '5vh',
         });
     }
 
@@ -25,9 +27,9 @@ class DropdownDiv extends Component {
     render() {
 
         return (
-            <div className={`DropdownDiv ${this.state.active}`}>
+            <div className={`DropdownDiv ${this.state.active} ${this.props.classEtc}`} style={{height: this.state.height}}>
                 
-                <div className='header' >
+                <div onClick={this.toggleActive} className='header' >
                     <div className='menuIcon'>
                         <img className={`i ${this.props.icon}`} src={`/images/${this.props.icon}.svg`} alt='icon' />
                     </div>

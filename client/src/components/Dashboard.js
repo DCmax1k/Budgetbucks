@@ -30,12 +30,13 @@ class Dashboard extends Component {
         this.saveBudget = this.saveBudget.bind(this);
         this.deleteBudget = this.deleteBudget.bind(this);
         this.toggleHamMenu = this.toggleHamMenu.bind(this);
+        this.changeUser = this.changeUser.bind(this);
     }
 
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}     },status: 'success',};
+            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -68,7 +69,7 @@ class Dashboard extends Component {
     }
 
     // Official change budget function passed. DB saves here.
-    changeBudget(budget, db) {
+    changeBudget(budget) {
         const budgets = this.state.budgets;
         const index = budgets.findIndex((b) => b.id === budget.id);
         budgets[index] = budget;
@@ -153,6 +154,12 @@ class Dashboard extends Component {
         });
     }
 
+    changeUser(user) {
+        this.setState({
+            user,
+        });
+    }
+
 
     render() {
         return this.state.loggedIn ? (
@@ -183,7 +190,7 @@ class Dashboard extends Component {
                     ) : null}
                 </div>
 
-                <HamMenu user={this.state.user} closeMenu={this.toggleHamMenu} active={this.state.hamMenu} />
+                <HamMenu user={this.state.user} closeMenu={this.toggleHamMenu} active={this.state.hamMenu} changeUser={this.changeUser} />
                 
             </div>
         ) : (

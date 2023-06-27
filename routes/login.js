@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 
         return res.json({
             status: 'success',
-            message: 'User loggerd in successfully!',
+            message: 'User logged in successfully!',
         });
     } catch(err) {
         console.error(err);
@@ -50,7 +50,7 @@ router.post('/createaccount', async (req, res) => {
         const {  username, email, password} = req.body;
         const checkUser = await User.findOne({ username });
         if (checkUser) {
-            return res.json({status: 'error', message: 'Username already exists'});
+            return res.json({status: 'error', message: 'Username already taken'});
         }
         if (!validateUsername(username)) return res.json({status: 'error', message: 'Username must include at least 1 character'});
         if (!validateEmail(email)) return res.json({status: 'error', message: 'Please enter a valid email'});
@@ -67,6 +67,60 @@ router.post('/createaccount', async (req, res) => {
         const jwt_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         res.cookie('auth-token', jwt_token, { httpOnly: true, expires: new Date(Date.now() + 20 * 365 * 24 * 60 * 60 * 1000) }).json({ status: 'success' });
 
+    } catch(err) {
+        console.error(err);
+    }
+});
+
+router.post('/changeusername', authToken, async (req, res) => {
+    try {
+        const { username } = req.body;
+        if (!validateUsername(username)) return res.json({status: 'error', message: 'Username must include at least 1 character'});
+        const usert = await User.findOne({username});
+        if (!usert) {
+            return res.json({
+                status: 'error',
+                message: 'Username already taken!',
+            });
+        }
+        
+        const user = await User.findById(req.userId);
+        if (user.username === username) {
+            return res.json({
+                status: 'success',
+                message: 'Username was the same!',
+            });
+        }
+        user.username = username;
+        await user.save();
+
+        return res.json({
+            status: 'success',
+            message: 'Username was changed successfully!',
+        });
+    } catch(err) {
+        console.error(err);
+    }
+});
+
+router.post('/changeemail', authToken, async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!validateEmail(email)) return res.json({status: 'error', message: 'Please enter a valid email'});
+        const user = await User.findById(req.userId);
+        if (user.email === email) {
+            return res.json({
+                status: 'success',
+                message: 'Email is the same!',
+            });
+        }
+        user.email = email;
+        await user.save();
+
+        return res.json({
+            status: 'success',
+            message: 'Email was changed successfully!',
+        });
     } catch(err) {
         console.error(err);
     }

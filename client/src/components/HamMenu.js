@@ -20,7 +20,15 @@ class HamMenu extends Component {
     }
 
     async changeUsername(username) {
-        await sendData('/changeusername', {username});
+        const response = await sendData('/login/changeusername', {username});
+        if (response.status !== 'success') return alert(response.message);
+
+        const user = this.props.user;
+        user.username = username;
+        this.props.changeUser(user);
+        this.setState({
+            newUsername: '',
+        });
     }
 
     inputNewUsername(e) {
@@ -29,8 +37,16 @@ class HamMenu extends Component {
         });
     }
 
-    async changeUsername(email) {
-        await sendData('/changeemail', {email});
+    async changeEmail(email) {
+        const response = await sendData('/login/changeemail', {email});
+        if (response.status !== 'success') return alert(response.message);
+
+        const user = this.props.user;
+        user.email = email;
+        this.props.changeUser(user);
+        this.setState({
+            newEmail: '',
+        });
     }
 
     inputNewEmail(e) {
@@ -59,22 +75,29 @@ class HamMenu extends Component {
                     </div>
                 </div>
                 
-                <DropdownDiv icon="person" label="Change username">
+                <DropdownDiv classEtc="simpleInput" icon="person" label="Change username" height={'12vh'}>
                     <input placeholder={user.username} value={this.state.newUsername} onInput={this.inputNewUsername} />
                     <div onClick={() => this.changeUsername(this.state.newUsername)}>
                         Done
                     </div>
                 </DropdownDiv>
 
-                <DropdownDiv icon="email" label="Change email">
+                <DropdownDiv classEtc="simpleInput" icon="email" label="Change email" height={'12vh'}>
                     <input placeholder={user.email} value={this.state.newEmail} onInput={this.inputNewEmail} />
-                    <div onClick={() => this.changeUsername(this.state.newEmail)}>
+                    <div onClick={() => this.changeEmail(this.state.newEmail)}>
                         Done
                     </div>
                 </DropdownDiv>
 
-                <DropdownDiv icon="settings" label="Settings">
-                    
+                <DropdownDiv classEtc="settings" icon="settings" label="Settings" height={'20vh'}>
+                    <div className='copyCat'>
+                        <h4>Copy past categories when creating new budgets</h4>
+                        <div className='swtich'></div>
+                    </div>
+                    <div className='budgetInterval'>
+                        <h4>Default budget interval</h4>
+                        <div className='otherstuff'></div>
+                    </div>
                 </DropdownDiv>
 
                 <div onClick={this.logout} className='logout'>
