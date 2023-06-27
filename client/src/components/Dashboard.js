@@ -158,8 +158,6 @@ class Dashboard extends Component {
         return this.state.loggedIn ? (
             <div className={`Dashboard ${this.state.loggedIn}`}>
 
-                <HamMenu user={this.state.user} closeMenu={this.toggleHamMenu} active={this.state.hamMenu} />
-
                 <div className='topRightBtns'>
                     <div className='addBudget' onClick={this.addBudget}>
                         <img src='/images/plus.svg' alt='add budget plus svg' />
@@ -184,6 +182,8 @@ class Dashboard extends Component {
                         </div>
                     ) : null}
                 </div>
+
+                <HamMenu user={this.state.user} closeMenu={this.toggleHamMenu} active={this.state.hamMenu} />
                 
             </div>
         ) : (

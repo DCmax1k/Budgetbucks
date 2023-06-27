@@ -3,6 +3,9 @@
 .Dashboard {
     opacity: 0;
     transition: opacity 0.3s ease;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .floatingIcon {
@@ -16,7 +19,7 @@
     width: calc(4vw + 25px);
 }
 
-.title {
+.Dashboard > .title {
     height: 6vh;
     width: 100%;
     display: flex;
@@ -24,7 +27,7 @@
     align-items: center;
     margin-top: 3vh;
 }
-.title > img {
+.Dashboard > .title > img {
     height: 100%;
 }
 
@@ -51,7 +54,7 @@
     .budgets {
         padding: 0 1vw;
     }
-    .title {
+    .Dashboard > .title {
         height: 5vh;
         padding-left: 3vh;
         margin-top: 8vh;
@@ -150,10 +153,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
-    z-index: 100;
     transform: translateX(100%);
     transition: transform 0.3s ease;
 }
@@ -182,7 +184,7 @@
 }
 .HamMenu > .heading > .title > img {
     height: 80%;
-    margin-top: -1.4vh;
+    margin-top: 1vh;
 }
 .HamMenu > .heading > .closeMenu {
     position: absolute;
@@ -197,7 +199,7 @@
 
 .DropdownDiv {
     height: 5vh;
-    width: 80%;
+    width: 90%;
     overflow: hidden;
     background-color: #313131;
     border-radius: 1.3vh;
