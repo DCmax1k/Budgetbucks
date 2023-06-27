@@ -75,14 +75,14 @@ class HamMenu extends Component {
                     </div>
                 </div>
                 
-                <DropdownDiv classEtc="simpleInput" icon="person" label="Change username" height={'12vh'}>
+                <DropdownDiv classEtc="simpleInput username" icon="person" label="Change username" height={'12vh'}>
                     <input placeholder={user.username} value={this.state.newUsername} onInput={this.inputNewUsername} />
                     <div onClick={() => this.changeUsername(this.state.newUsername)}>
                         Done
                     </div>
                 </DropdownDiv>
 
-                <DropdownDiv classEtc="simpleInput" icon="email" label="Change email" height={'12vh'}>
+                <DropdownDiv classEtc="simpleInput email" icon="email" label="Change email" height={'12vh'}>
                     <input placeholder={user.email} value={this.state.newEmail} onInput={this.inputNewEmail} />
                     <div onClick={() => this.changeEmail(this.state.newEmail)}>
                         Done

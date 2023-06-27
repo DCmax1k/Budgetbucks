@@ -51,7 +51,9 @@ app.post('/auth', authToken, async (req, res) => {
 
     try {
         const user = await User.findOne({_id: req.userId});
-
+        if (!user) {
+            return res.json({status: 'error', message: 'Bad authentication! Redirecting...'})
+        }
         // Get any recent unsaved changes from ram on server and replace the db ones with them.
         const recentBudgets = dashboardRoute.getLiveUserBudgets(user._id);
         console.log('recent budgets ', recentBudgets);

@@ -76,12 +76,9 @@ router.post('/changeusername', authToken, async (req, res) => {
     try {
         const { username } = req.body;
         if (!validateUsername(username)) return res.json({status: 'error', message: 'Username must include at least 1 character'});
-        const usert = await User.findOne({username});
-        if (!usert) {
-            return res.json({
-                status: 'error',
-                message: 'Username already taken!',
-            });
+        const checkUser = await User.findOne({ username });
+        if (checkUser) {
+            return res.json({status: 'error', message: 'Username already taken'});
         }
         
         const user = await User.findById(req.userId);
