@@ -194,7 +194,8 @@ class Budget extends Component {
     }
     animateScrollOver(doc, i) {
         if (i >= 100) return;
-        doc.scrollLeft = doc.scrollWidth;
+        console.log(doc.scrollLeft, " ", doc.scrollWidth - 1000);
+        doc.scrollLeft = doc.scrollWidth - 500;
         setTimeout(() => {
             this.animateScrollOver(doc, i+1)
         },1);
