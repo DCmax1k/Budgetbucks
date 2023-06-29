@@ -458,6 +458,9 @@
     overflow-y: scroll;
     width: 80%;
 }
+.Items::-webkit-scrollbar {
+    width: 0; 
+}
 
 .Item {
     width: 100%;

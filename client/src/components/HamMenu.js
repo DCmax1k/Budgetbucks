@@ -90,14 +90,15 @@ class HamMenu extends Component {
                 </DropdownDiv>
 
                 <DropdownDiv classEtc="settings" icon="settings" label="Settings" height={'20vh'}>
-                    <div className='copyCat'>
+                    {/* <div className='copyCat'>
                         <h4>Copy past categories when creating new budgets</h4>
                         <div className='swtich'></div>
                     </div>
                     <div className='budgetInterval'>
                         <h4>Default budget interval</h4>
                         <div className='otherstuff'></div>
-                    </div>
+                    </div> */}
+                    <div style={{color: 'white'}}>Coming next update.</div>
                 </DropdownDiv>
 
                 <div onClick={this.logout} className='logout'>
