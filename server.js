@@ -32,10 +32,15 @@ app.use('/login', loginRoute);
 const dashboardRoute = require('./routes/dashboard');
 app.use('/dashboard', dashboardRoute.router);
 
+const adminRoute = require('./routes/admin');
+app.use('/admin', adminRoute);
+
 app.get('/dashboard', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
-
+app.get('/admin', (req, res) => {
+    res.sendFile(__dirname + '/client/build/index.html');
+});
 app.get('/agreements/:page', (req, res) => {
     res.sendFile(__dirname + '/client/build/index.html');
 });
@@ -45,7 +50,6 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
     res.redirect('/');
 });
-
 
 app.post('/auth', authToken, async (req, res) => {
 

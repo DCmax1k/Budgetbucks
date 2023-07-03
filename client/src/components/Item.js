@@ -48,7 +48,7 @@ class Item extends Component {
         const { item, section } = this.props;
 
         return (
-            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem} style={{backgroundColor: section.color}}>
+            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem} /*style={{backgroundColor: section.color}}*/>
                 {/* <div className={`itemDate ${this.state.dateActive ? "date" : ""}`}>
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}

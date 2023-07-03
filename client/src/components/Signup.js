@@ -73,7 +73,7 @@ class Signup extends Component {
         return (
             <div className='Signup'>
                 <div className='signupTitle'>
-                    Sign up!
+                    Create an account!
                 </div>
 
                 <Input type="text" placeholder="Username" onInput={this.updateUsername} value={this.state.username} />

@@ -18,7 +18,7 @@ class DatePicker extends Component {
 
         return (
             <div className='DatePicker'>
-                <input type="date" value={date} onInput={this.changeDate}  />
+                <input className='dateInput' type="date" value={date} onInput={this.changeDate}  />
                 <div className='calendarIcon'>
                     <img src='/images/calendar.svg' alt='end date select' />
                 </div>

@@ -36,7 +36,7 @@ class Dashboard extends Component {
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
+            //const checkLogin = {user: {username: 'DCmax1k', plus: false, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -106,10 +106,12 @@ class Dashboard extends Component {
         const copyCategories = user.settings.copyCategories;
 
         let sections = [];
+        let budgetAmount = 0;
         if (copyCategories && user.budgets.length > 0) {
             sections = user.budgets[0].sections.map(sec => {
                 return { ...sec, items: []};
             });
+            budgetAmount = user.budgets[0].budgetAmount;
         }
 
         const date = new Date();
@@ -118,7 +120,7 @@ class Dashboard extends Component {
             id: generateId(),
             dateStart: date.getFullYear() + '-' + this.pad(date.getMonth() + 1) + '-' + this.pad(date.getDate()),
             dateEnd: endDate.getFullYear() + '-' + this.pad(endDate.getMonth() + 1) + '-' + this.pad(endDate.getDate()),
-            budgetAmount: "",
+            budgetAmount,
             sections,
         };
         const currentBudgets = this.state.budgets;

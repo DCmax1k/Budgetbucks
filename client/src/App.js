@@ -4,6 +4,7 @@ import './App.css';
 
 import IndexPage from './components/IndexPage';
 import Dashboard from './components/Dashboard';
+import Admin from './components/Admin';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<IndexPage />} />
           <Route path="/dashboard" element={<Dashboard/> } />
+          <Route path="/admin" element={<Admin /> } />
           <Route path="/agreements/termsofuse" element={<div>Budget Bucks is still in beta and available free to the public for testing. The terms of use are coming soon!</div> } />
           <Route path="/agreements/privacypolicy" element={ <div>Budget Bucks is still in beta and available free to the public for testing. The privacy policy is coming soon!</div> } />
         </Routes>

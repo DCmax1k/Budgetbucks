@@ -203,9 +203,7 @@ class Budget extends Component {
 
     changeColor(section, color) {
         const budget = this.props.budget;
-        console.log(section.id);
         const idx = budget.sections.findIndex(sec => sec.id === section.id);
-        console.log(budget.sections);
         budget.sections[idx].color = color;
         this.props.changeBudget(budget);
     }
@@ -358,7 +356,7 @@ class Budget extends Component {
                 <div className='sections'>
                     {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
+                            <BudgetSection key={section.key} user={this.props.user} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
                         )
                     })}
                     {/* Add section */}

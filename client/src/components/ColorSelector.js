@@ -9,8 +9,9 @@ class ColorSelector extends Component {
             active: false,
         }
 
-        this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
+        this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848'];
         this.changeColor = this.changeColor.bind(this);
+        this.changeColore = this.changeColore.bind(this);
         this.activate = this.activate.bind(this);
     }
 
@@ -25,6 +26,10 @@ class ColorSelector extends Component {
         this.props.changeColor(this.props.section, color);
     }
 
+    changeColore(e) {
+        this.changeColor(e.target.value);
+    }
+
     activate() {
         this.setState({
             active: true,
@@ -36,18 +41,27 @@ class ColorSelector extends Component {
         const { active } = this.state;
         const colors = this.colors;
 
-        return (
-            <div className='ColorSelector'>
-                <div id='currentColor' className={active ? '' : 'active'}>
-                    <div onClick={this.activate} className='outter'style={{backgroundColor: currentColor}}>  <div className='middle'> <div className='inner' style={{backgroundColor: currentColor}}></div> </div>  </div>
+        if (this.props.user.plus) {
+            return (
+                <div className={`ColorSelector plus`}>
+                    <div style={{backgroundColor: currentColor}}  className='outter'>  <div className='middle'> <input className='inner' type='color' onInput={this.changeColore} style={{backgroundColor: currentColor}} value={currentColor} /> </div>  </div>
+                    
                 </div>
-
-                <div id='otherColors' className={active ? 'active' : ''}>
-                    {colors.map(color => <div key={color} onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>  <div className='middle'> <div className='inner' style={{backgroundColor: color}}></div> </div>  </div>)}
+            );
+        } else {
+            return (
+                <div className='ColorSelector'>
+                    <div id='currentColor' className={active ? '' : 'active'}>
+                        <div onClick={this.activate} className='outter'style={{backgroundColor: currentColor}}>  <div className='middle'> <div className='inner' style={{backgroundColor: currentColor}}></div> </div>  </div>
+                    </div>
+    
+                    <div id='otherColors' className={active ? 'active' : ''}>
+                        {colors.map(color => <div key={color} onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>  <div className='middle'> <div className='inner' style={{backgroundColor: color}}></div> </div>  </div>)}
+                    </div>
+                    
                 </div>
-                
-            </div>
-        )
+            );
+        }
     }
 }
 

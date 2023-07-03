@@ -96,7 +96,7 @@ class BudgetSection extends Component {
                     &nbsp;%
                 </div> */}
 
-                <ColorSelector section={section} changeColor={this.changeColor} />
+                <ColorSelector section={section} changeColor={this.changeColor} user={this.props.user}/>
 
                 <div className='removeCategory' onClick={() => this.props.requestRemoveCategory(section)} title='Delete category'>
                     <img src='/images/minus.svg' alt='remove category' />
@@ -129,7 +129,7 @@ class BudgetSection extends Component {
                     ${(Math.abs(amountLeft)).toFixed(2)} {amountLeft<0 ? 'OVER BUDGET' : 'LEFT'}
                 </div>
 
-                <div className='addItem' onClick={() => {this.addItem(section)}} style={{backgroundColor: section.color}} >
+                <div className='addItem' onClick={() => {this.addItem(section)}} style={{borderColor: section.color}} >
                     <img src="/images/plus.svg" alt='add item' /> Purchase/debit
                 </div>
 

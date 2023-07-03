@@ -10,14 +10,14 @@ class Simple extends Component {
             <div className='Simple'>
                 budgeting made simple.
 
-                <div className='signupBtn btn' onClick={() => this.props.changePage('signup')}>
-                    Sign up
+                <div className='logBtn btn' onClick={() => this.props.changePage('login')}>
+                    Log in
                 </div>
 
-                - or -
+                <span className='aboveCreate'>- Don't have an account? -</span>
 
-                <div className='loginBtn btn' onClick={() => this.props.changePage('login')}>
-                    Log in
+                <div className='createBtn btn' onClick={() => this.props.changePage('signup')}>
+                    Create an account!
                 </div>
             </div>
         )
