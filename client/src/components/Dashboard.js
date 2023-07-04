@@ -36,7 +36,7 @@ class Dashboard extends Component {
     async componentDidMount() {
         try {
             const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'DCmax1k', plus: false, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
+            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({

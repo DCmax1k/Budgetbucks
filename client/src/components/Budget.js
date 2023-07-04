@@ -12,19 +12,17 @@ class Budget extends Component {
         this.state = {
             active: this.props.defaultActive,
 
-            editItem: null,
-            animateItem: null,
-
             totalFundsInputWidth: 3 + 1.2*JSON.stringify(props.budget.budgetAmount).length,
 
             showTrash: false,
         }
 
+        this.itemRefs = [];
+
         this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
         this.changeBudget = this.changeBudget.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
         this.modifyBudget = this.modifyBudget.bind(this);
-        this.editItem = this.editItem.bind(this);
         this.changeItem = this.changeItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -61,21 +59,6 @@ class Budget extends Component {
         this.props.changeBudget(budget);
     }
 
-    editItem(section, item) {
-        if (section === null && item === null) {
-            setTimeout(() => {
-                this.setState({
-                    editItem: null,
-                });
-            }, 1)
-        } else {
-           this.setState({
-                editItem: item,
-            }); 
-        }
-        
-    }
-
     changeItem(item, sectionKey) {
         const budget = this.props.budget;
         budget.sections[sectionKey].items[item.key] = item;
@@ -93,38 +76,28 @@ class Budget extends Component {
             price: null,
             date: Date.now(),
             id: generateId(),
+            ref: React.createRef(),
         }
 
         budget.sections[section.key].items.push(newItem);
         this.props.changeBudget(budget);
+
+        // Aniamte with ref
         setTimeout(() => {
-            this.setState({
-                editItem: newItem,
-            });
+            newItem.ref.current.open();
         }, 305);
     }
 
     deleteItem(section, item) {
-        this.editItem(null, null);
         const budget = this.props.budget;
 
-        // First animate item
-        this.setState({
-            animateItem: item,
-        });
-        // Actually remove
-        setTimeout(() => {
-            if (budget.sections[section.key].items.length < 2) {
-                budget.sections[section.key].items = [];
-            } else {
-                budget.sections[section.key].items.splice(item.key, 1);
-            }
-            
-            this.setState({
-                animateItem: null,
-            });
-            this.fixItems(budget, section);
-        }, 300);
+        if (budget.sections[section.key].items.length < 2) {
+            budget.sections[section.key].items = [];
+        } else {
+            budget.sections[section.key].items.splice(item.key, 1);
+        }
+        
+        this.fixItems(budget, section);
     }
 
     fixItems(budget, section) {
@@ -310,7 +283,7 @@ class Budget extends Component {
     render() {
         const budget = this.props.budget;
         let percentUsed = 0;
-        this.props.budget.sections.forEach(section => {
+        budget.sections.forEach(section => {
             percentUsed+=parseFloat(section.percent);
         });
         if (isNaN(percentUsed)) percentUsed = "";
@@ -356,7 +329,7 @@ class Budget extends Component {
                 <div className='sections'>
                     {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} user={this.props.user} section={section} budget={budget} modifyBudget={this.modifyBudget} editItem={this.editItem} addItem={this.addItem} animateItem={this.state.animateItem} currentItem={this.state.editItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
+                            <BudgetSection key={section.key} user={this.props.user} section={section} budget={budget} modifyBudget={this.modifyBudget} addItem={this.addItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
                         )
                     })}
                     {/* Add section */}

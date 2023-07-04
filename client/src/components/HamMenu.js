@@ -98,7 +98,7 @@ class HamMenu extends Component {
                         <h4>Default budget interval</h4>
                         <div className='otherstuff'></div>
                     </div> */}
-                    <div style={{color: 'white'}}>Coming next update.</div>
+                    <div style={{color: 'white'}}>Coming soon.</div>
                 </DropdownDiv>
 
                 <div onClick={this.logout} className='logout'>

@@ -13,7 +13,6 @@ class BudgetSection extends Component {
 
         this.calculateSpent = this.calculateSpent.bind(this);
         this.changePercent = this.changePercent.bind(this);
-        this.editItem = this.editItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.changeName = this.changeName.bind(this);
         this.changeItem = this.changeItem.bind(this);
@@ -62,9 +61,6 @@ class BudgetSection extends Component {
         return value.toFixed(2);
     }
 
-    editItem(section, item) {
-        this.props.editItem(section, item);
-    }
 
     changeItem(item, sectionKey) {
         this.props.changeItem(item, sectionKey);
@@ -83,9 +79,6 @@ class BudgetSection extends Component {
 
         //const spentText = isNaN(spent) ? 0 : typeof(spent) !== 'string' ? spent.toFixed(2) : spent.substring(spent.length - 1) === "." ? spent : spent.substring(spent.length - 2) === ".0" ? spent : spent.toFixed(2);
         const totalText = this.calculatePercent(section, budget);
-
-        const animateItem = this.props.animateItem;
-        const currentItem = this.props.currentItem;
 
         const amountLeft = totalText - spent;
 
@@ -119,19 +112,22 @@ class BudgetSection extends Component {
                 <div className='Items'>
                     {section.items.map((item, k) => {
                     return(
-                        <Item key={item.id} budget={budget} section={section} item={item} editItem={this.editItem} changeItem={this.changeItem} animateItem={animateItem === null ? false : animateItem.id === item.id} currentItem={currentItem === null ? false : currentItem.id === item.id} deleteItem={this.deleteItem} />
+                        <Item ref={item.ref} key={item.id} budget={budget} section={section} item={item} changeItem={this.changeItem} deleteItem={this.deleteItem} />
                     )
                 })}
                 </div>
 
                 {/* Amount Left / Add item */}
-                <div className={`amountLeft ${section.items.length === 0 ? '' : 'active'} ${amountLeft<0 ? 'red' : ''}`}>
-                    ${(Math.abs(amountLeft)).toFixed(2)} {amountLeft<0 ? 'OVER BUDGET' : 'LEFT'}
-                </div>
+                <div className='belowSection'>
+                    <div className={`amountLeft ${section.items.length === 0 ? '' : 'active'} ${amountLeft<0 ? 'red' : ''}`}>
+                        ${(Math.abs(amountLeft)).toFixed(2)} {amountLeft<0 ? 'OVER' : 'LEFT'}
+                    </div>
 
-                <div className='addItem' onClick={() => {this.addItem(section)}} style={{borderColor: section.color}} >
-                    <img src="/images/plus.svg" alt='add item' /> Purchase/debit
+                    <div className='addItem' onClick={() => {this.addItem(section)}} style={{borderColor: section.color}} >
+                        <img src="/images/plus.svg" alt='add item' /> Purchase/debit
+                    </div>
                 </div>
+                
 
                 <div className='rightBorder'></div>
                 

@@ -5,22 +5,27 @@ class Item extends Component {
     constructor(props) {
         super(props);
 
-        this.budget = props.budget;
-        this.item = props.item;
-        this.section = props.section;
         this.state= {
             dateActive: false,
+            active: false,
+            deleting: false,
         };
 
-        this.editItem = this.editItem.bind(this);
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
         this.changeItem = this.changeItem.bind(this);
-        this.closeEdit = this.closeEdit.bind(this); 
         this.deleteItem = this.deleteItem.bind(this);
     }
 
-    editItem(state) {
-        if (state === false) this.props.editItem(null, null);
-        this.props.editItem(this.section, this.item);
+    open() {
+        this.setState({
+            active: true,
+        });
+    }
+    close() {
+        this.setState({
+            active: false,
+        });
     }
 
     changeItem(item, type, e, section) {
@@ -29,30 +34,28 @@ class Item extends Component {
         this.props.changeItem(item, section.key);
     }
 
-    closeEdit() {
-        this.props.editItem(null, null);
-    }
-
     deleteItem(section, item) {
-        this.closeEdit();
+        this.setState({
+            deleting: true,
+        });
+
+        // Wait for animation to delete
         setTimeout(() => {
             this.props.deleteItem(section, item);
-        }, 301);
+        }, 305);
         
     }
 
     render() {
-        const animateItem = this.props.animateItem; // boolean for animation
-        const currentItem = this.props.currentItem; // boolean for focused item
 
         const { item, section } = this.props;
 
         return (
-            <div className={`Item ${this.state.dateActive ? "date" : ""} ${animateItem ? "leave" : ""} ${currentItem ? "focused" : ""}`} onClick={this.editItem} /*style={{backgroundColor: section.color}}*/>
+            <div className={`Item ${this.state.dateActive ? "date" : ""} ${this.state.active ? 'focused' : ''} ${this.state.deleting ? 'deleting' : ''}`} /*style={{backgroundColor: section.color}}*/>
                 {/* <div className={`itemDate ${this.state.dateActive ? "date" : ""}`}>
                     {new Date(this.item.date).toLocaleDateString()}
                 </div> */}
-                <div className='row1 row'>
+                <div className='row1 row' onClick={() => this.open()}>
                     <div className='itemName' title={item.name}>
                         {item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name}
                     </div>
@@ -65,7 +68,7 @@ class Item extends Component {
                 </div>
                 <div className='row3 row'>
                     <input type='number' placeholder='Amount' value={item.price === null ? "" : item.price} onInput={(e) => {this.changeItem(item, "price", e, section)}} />
-                    <div className='doneBtn' onClick={this.closeEdit} style={{backgroundColor: section.color}}>
+                    <div className='doneBtn' onClick={() => this.close()} style={{background: `linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.40)), linear-gradient(${section.color}, ${section.color})`}}>
                         Done
                     </div>
                 </div>
