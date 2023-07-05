@@ -50,7 +50,7 @@
     background-color: #2C2C2C;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 850px) {
     .budgets {
         padding: 0 1vw;
     }
@@ -121,7 +121,7 @@
 
 .topRightBtns > .addBudget {
     height: 100%;
-    width: 12vh;
+    width: 15vh;
     background-color: #48639C;
     margin-right: 5vh;
     cursor: pointer;

@@ -44,7 +44,12 @@ class ColorSelector extends Component {
         if (this.props.user.plus) {
             return (
                 <div className={`ColorSelector plus`}>
-                    <div style={{backgroundColor: currentColor}}  className='outter'>  <div className='middle'> <input className='inner' type='color' onInput={this.changeColore} style={{backgroundColor: currentColor}} value={currentColor} /> </div>  </div>
+                    <div style={{backgroundColor: currentColor}}  className='outter'>
+                        <div className='middle'>
+                            <div className='inner' style={{backgroundColor: currentColor}}></div>
+                        </div>
+                    </div>
+                    <input className='colorInput' type='color' onInput={this.changeColore} style={{backgroundColor: currentColor}} value={currentColor} />
                     
                 </div>
             );
@@ -56,7 +61,13 @@ class ColorSelector extends Component {
                     </div>
     
                     <div id='otherColors' className={active ? 'active' : ''}>
-                        {colors.map(color => <div key={color} onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>  <div className='middle'> <div className='inner' style={{backgroundColor: color}}></div> </div>  </div>)}
+                        {colors.map(color => (
+                            <div key={color} onClick={() => {this.changeColor(color)}} className='outter'style={{backgroundColor: color}}>
+                                <div className='middle'>
+                                    <div className='inner' style={{backgroundColor: color}}></div>
+                                </div> 
+                            </div>
+                        ))}
                     </div>
                     
                 </div>

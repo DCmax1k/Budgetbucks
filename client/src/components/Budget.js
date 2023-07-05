@@ -85,7 +85,7 @@ class Budget extends Component {
         // Aniamte with ref
         setTimeout(() => {
             newItem.ref.current.open();
-        }, 305);
+        }, 325);
     }
 
     deleteItem(section, item) {

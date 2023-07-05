@@ -35,8 +35,8 @@ class Dashboard extends Component {
 
     async componentDidMount() {
         try {
-            const checkLogin = await sendData('/auth', {});
-            //const checkLogin = {user: {username: 'DCmax1k', plus: true, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
+            //const checkLogin = await sendData('/auth', {});
+            const checkLogin = {user: {username: 'DCmax1k', plus: false, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -170,7 +170,7 @@ class Dashboard extends Component {
                 <div className='topRightBtns'>
                     <div className='addBudget' onClick={this.addBudget}>
                         <img src='/images/plus.svg' alt='add budget plus svg' />
-                        Budget
+                        Add Budget
                     </div>
                     <img onClick={this.toggleHamMenu} src='/images/hamMenu.svg' alt='open side menu' className='openMenu' />
                 </div>

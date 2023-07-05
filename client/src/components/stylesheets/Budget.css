@@ -296,11 +296,17 @@
     justify-content: center;
     align-items: center;
 }
-.ColorSelector.plus input {
+.ColorSelector.plus input.colorInput {
     border: none;
     outline: none;
-    color: transparent;
     cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    width: 4vh;
+    height: 2vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
 }
 
