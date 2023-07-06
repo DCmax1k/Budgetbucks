@@ -16,9 +16,9 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            budgets: [],
+            budgets: null,
             theme: 'dark',
-            user: {},
+            user: null,
             loggedIn: false,
             loadingText: 'Authenticating...',
             fadeOut: false, // Loading text fade
@@ -35,8 +35,8 @@ class Dashboard extends Component {
 
     async componentDidMount() {
         try {
-            //const checkLogin = await sendData('/auth', {});
-            const checkLogin = {user: {username: 'DCmax1k', plus: false, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
+            const checkLogin = await sendData('/auth', {});
+            //const checkLogin = {user: {username: 'DCmax1k', plus: false, budgets: [testBudget], settings: { budgetInterval: 7, copyCategories: true}, email: 'dylan@socialentapp.com',     },status: 'success',};
             if (checkLogin.status === 'success') {
                 const user = checkLogin.user;
                 this.setState({
@@ -83,8 +83,10 @@ class Dashboard extends Component {
         // Adds the change to the server. The server will save to db every 10 secs.
         this.saveBudget(budget);
     }
-    async saveBudget(budget) {
 
+
+
+    async saveBudget(budget) {
         const response = await sendData('/dashboard/changebudget', {
             budget,
             user: this.state.user,

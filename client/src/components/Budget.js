@@ -20,9 +20,9 @@ class Budget extends Component {
         this.itemRefs = [];
 
         this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
-        this.changeBudget = this.changeBudget.bind(this);
+        this.changeBudgetAmount = this.changeBudget.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
-        this.modifyBudget = this.modifyBudget.bind(this);
+        this.changeBudget = this.changeBudget.bind(this);
         this.changeItem = this.changeItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -45,17 +45,18 @@ class Budget extends Component {
         });
     }
 
-    changeBudget(e) {
+    changeBudgetAmount(e) {
         let width = 3 + 1.2*JSON.stringify(e.target.value).length;
         if (width < 3) width = 3;
         this.setState({
             totalFundsInputWidth: width,
         });
-        const budget = {...this.props.budget, budgetAmount: e.target.value}
+        const budget = this.props.budget;
+        budget.budgetAmount = e.target.value;
         this.props.changeBudget(budget);
     }
 
-    modifyBudget(budget) {
+    changeBudget(budget) {
         this.props.changeBudget(budget);
     }
 
@@ -315,7 +316,7 @@ class Budget extends Component {
                     
                 </div>
                 <div className='budgetAmountCont'>
-                    Total funds: $<input type='number' value={budget.budgetAmount} onInput={this.changeBudget} placeholder='0' style={{width: `${this.state.totalFundsInputWidth}vh`}} />
+                    Total funds: $<input type='number' value={budget.budgetAmount} onInput={this.changeBudgetAmount} placeholder='0' style={{width: `${this.state.totalFundsInputWidth}vh`}} />
                     {/* <div className='percentUsed'>{percentUsed.toFixed(0)}% used</div> */}
                     <div className='colorBar'>
                         {budget.sections.map(sec => {
@@ -329,7 +330,7 @@ class Budget extends Component {
                 <div className='sections'>
                     {budget.sections.map((section, k) => {
                         return(
-                            <BudgetSection key={section.key} user={this.props.user} section={section} budget={budget} modifyBudget={this.modifyBudget} addItem={this.addItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
+                            <BudgetSection key={section.key} user={this.props.user} section={section} budget={budget} changeBudget={this.changeBudget} addItem={this.addItem} requestRemoveCategory={this.requestRemoveCategory} changeItem={this.changeItem} deleteItem={this.deleteItem} changeColor={this.changeColor} />
                         )
                     })}
                     {/* Add section */}

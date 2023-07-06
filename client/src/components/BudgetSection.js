@@ -42,14 +42,14 @@ class BudgetSection extends Component {
         } else {
             newBudget.sections[section.key].percent = newValue;
         }
-        this.props.modifyBudget(newBudget);
+        this.props.changeBudget(newBudget);
     }
 
     changeName(e) {
         const { budget, section } = this.props;
         const newBudget = {...budget};
         newBudget.sections[section.key].title = e.target.value;
-        this.props.modifyBudget(newBudget);
+        this.props.changeBudget(newBudget);
     }
 
     addItem(section) {
