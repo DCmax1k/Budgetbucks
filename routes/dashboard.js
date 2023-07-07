@@ -11,7 +11,7 @@ setInterval(async () => {
 
     if (!(liveUserBudgets && typeof liveUserBudgets === 'object' && Object.keys(liveUserBudgets).length > 0)) return;
 
-    console.log("Before save: ", JSON.stringify(liveUserBudgets));
+    console.log("Before save: ", liveUserBudgets);
 
     for (const id of Object.keys(liveUserBudgets)) {
         if (liveUserBudgets[id].budgets.length === 0) {
@@ -46,7 +46,7 @@ const getLiveUserBudgets = userID => {
 
 router.post('/changebudget', authToken, async (req, res) => {
     try {
-        const user = req.body.user;
+        const user = { _id: req.userId };
         const budget = req.body.budget;
 
         // Sends change to server memory data, 10sec interval saves to db
@@ -108,16 +108,6 @@ router.post('/addbudget', authToken, async (req, res) => {
     }
 });
 
-function authToken(req, res, next) {
-    const token = req.cookies['auth-token'];
-    if (!token) return res.sendStatus(401);
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.userId = user.userId;
-        next();
-    });
-}
-
 router.post('/deletebudget', authToken, async (req, res) => {
     try {
         const user = await User.findById(req.userId);
@@ -136,6 +126,16 @@ router.post('/deletebudget', authToken, async (req, res) => {
         console.error(err);
     }
 });
+
+function authToken(req, res, next) {
+    const token = req.cookies['auth-token'];
+    if (!token) return res.sendStatus(401);
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.userId = user.userId;
+        next();
+    });
+}
 
 
 module.exports = {

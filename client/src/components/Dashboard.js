@@ -87,10 +87,11 @@ class Dashboard extends Component {
 
 
     async saveBudget(budget) {
+        //console.log(budget);
         const response = await sendData('/dashboard/changebudget', {
             budget,
-            user: this.state.user,
         });
+
         if (response.status !== 'success') {
             alert('An error occurred while automatically saving! Please check your internet connection and try again.')
         }

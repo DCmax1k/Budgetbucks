@@ -10,6 +10,9 @@ class BudgetSection extends Component {
         const { section, budget } = props;
         this.section = section;
         this.budget = budget;
+        this.state = {
+            itemRefs: {}, // {itemID: ref}
+        }
 
         this.calculateSpent = this.calculateSpent.bind(this);
         this.changePercent = this.changePercent.bind(this);
@@ -53,7 +56,17 @@ class BudgetSection extends Component {
     }
 
     addItem(section) {
-        this.props.addItem(section);
+        const {itemRef, itemID} = this.props.addItem(section);
+        const itemRefs = this.state.itemRefs;
+        itemRefs[itemID] = itemRef;
+        this.setState({
+            itemRefs,
+        });
+
+        setTimeout(() => {
+            itemRef.current.open();
+        }, 325);
+
     }
 
     calculatePercent(sec, bud) {
@@ -111,8 +124,9 @@ class BudgetSection extends Component {
                 {/* Items */}
                 <div className='Items'>
                     {section.items.map((item, k) => {
+                        const ref = this.state.itemRefs[item.id];
                     return(
-                        <Item ref={item.ref} key={item.id} budget={budget} section={section} item={item} changeItem={this.changeItem} deleteItem={this.deleteItem} />
+                        <Item ref={ref} key={item.id} budget={budget} section={section} item={item} changeItem={this.changeItem} deleteItem={this.deleteItem} />
                     )
                 })}
                 </div>

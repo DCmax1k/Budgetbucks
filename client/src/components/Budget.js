@@ -20,7 +20,7 @@ class Budget extends Component {
         this.itemRefs = [];
 
         this.colors = ['#48639C', '#489C74', '#9C4894', '#9C4848', '#9C8A48'];
-        this.changeBudgetAmount = this.changeBudget.bind(this);
+        this.changeBudgetAmount = this.changeBudgetAmount.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
         this.changeBudget = this.changeBudget.bind(this);
         this.changeItem = this.changeItem.bind(this);
@@ -70,23 +70,26 @@ class Budget extends Component {
         const budget = this.props.budget;
         //Fix items
         this.fixItems(budget, section);
+
+
         //New item
+        const itemRef = React.createRef();
+
         const newItem = {
             key: section.items.length,
             name: "",
             price: null,
             date: Date.now(),
             id: generateId(),
-            ref: React.createRef(),
+            //ref: itemRef, This created major issues with circular errors.
         }
 
         budget.sections[section.key].items.push(newItem);
         this.props.changeBudget(budget);
 
-        // Aniamte with ref
-        setTimeout(() => {
-            newItem.ref.current.open();
-        }, 325);
+        // Instead, return the the ref to be stored
+        return {itemRef, itemID: newItem.id};
+        
     }
 
     deleteItem(section, item) {
@@ -168,7 +171,6 @@ class Budget extends Component {
     }
     animateScrollOver(doc, i) {
         if (i >= 100) return;
-        console.log(doc.scrollLeft, " ", doc.scrollWidth - 1000);
         doc.scrollLeft = doc.scrollWidth - 500;
         setTimeout(() => {
             this.animateScrollOver(doc, i+1)
