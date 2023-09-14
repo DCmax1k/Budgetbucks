@@ -11,11 +11,17 @@ const mongoose = require('mongoose');
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { createGzip } = require('zlib');
 
+const logger = (req, res, next) => {
+    console.log(req.method, ' ', req.url);
+    next();
+}
+
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/client/build'));
 app.use(cookieParser());
+app.use(logger);
 
 // DB models
 const User = require('./models/User');
