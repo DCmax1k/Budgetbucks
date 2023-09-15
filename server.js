@@ -12,7 +12,12 @@ const { SitemapStream, streamToPromise } = require('sitemap');
 const { createGzip } = require('zlib');
 
 const logger = (req, res, next) => {
-    console.log(req.method, ' ', req.url);
+    const date = new Date();
+    const time = `[ ${date.getHours()}:${date.getMinutes()} ]`;
+    res.on('finish', () => {
+        console.log(time, req.method, req.url);
+        console.log(time, `${res.statusCode}`);
+    });
     next();
 }
 
